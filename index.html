@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our 6-Month Anniversary Countdown</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="main-title">
+                <i class="fas fa-heart"></i>
+                Our 6-Month Anniversary
+                <i class="fas fa-heart"></i>
+            </h1>
+            <p class="subtitle">A journey to something special...</p>
+        </header>
+
+        <!-- Main Countdown -->
+        <section class="main-countdown">
+            <h2>Time Until Something Amazing</h2>
+            <div class="countdown-display" id="mainCountdown">
+                <div class="time-unit">
+                    <span class="number" id="days">0</span>
+                    <span class="label">Days</span>
+                </div>
+                <div class="time-unit">
+                    <span class="number" id="hours">0</span>
+                    <span class="label">Hours</span>
+                </div>
+                <div class="time-unit">
+                    <span class="number" id="minutes">0</span>
+                    <span class="label">Minutes</span>
+                </div>
+                <div class="time-unit">
+                    <span class="number" id="seconds">0</span>
+                    <span class="label">Seconds</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Weekly Countdown -->
+        <section class="weekly-countdown" id="weeklyCountdown" style="display: none;">
+            <h3>Next Hint Unlocks In</h3>
+            <div class="countdown-display small" id="weeklyCountdownDisplay">
+                <div class="time-unit">
+                    <span class="number" id="weeklyDays">0</span>
+                    <span class="label">Days</span>
+                </div>
+                <div class="time-unit">
+                    <span class="number" id="weeklyHours">0</span>
+                    <span class="label">Hours</span>
+                </div>
+                <div class="time-unit">
+                    <span class="number" id="weeklyMinutes">0</span>
+                    <span class="label">Minutes</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mini Game Section -->
+        <section class="mini-game-section" id="miniGameSection" style="display: none;">
+            <h3>Unlock Your Next Hint!</h3>
+            <div class="game-container" id="gameContainer">
+                <!-- Games will be dynamically loaded here -->
+            </div>
+        </section>
+
+        <!-- Hints Section -->
+        <section class="hints-section">
+            <h3>Hints Collected</h3>
+            <div class="hints-list" id="hintsList">
+                <p class="no-hints">Complete mini-games to unlock hints!</p>
+            </div>
+            
+            <div class="guess-section">
+                <h4>What do you think the surprise is?</h4>
+                <div class="guess-input-container">
+                    <input type="text" id="guessInput" placeholder="Enter your guess..." disabled>
+                    <button id="guessButton" disabled>Guess</button>
+                </div>
+                <div class="guess-response" id="guessResponse"></div>
+            </div>
+        </section>
+
+        <!-- Promposal Button (Hidden until final countdown) -->
+        <section class="promposal-section" id="promposalSection" style="display: none;">
+            <button class="promposal-button" id="promposalButton">
+                <i class="fas fa-gift"></i>
+                Click for the Big Reveal!
+                <i class="fas fa-gift"></i>
+            </button>
+        </section>
+    </div>
+
+    <!-- Promposal Modal -->
+    <div class="modal" id="promposalModal">
+        <div class="modal-content">
+            <div class="promposal-content">
+                <h1 class="promposal-title">Will You Go to Prom With Me?</h1>
+                <div class="promposal-animation">
+                    <div class="heart-container">
+                        <div class="heart"></div>
+                        <div class="heart"></div>
+                        <div class="heart"></div>
+                    </div>
+                </div>
+                <p class="promposal-text">
+                    My love, these past 6 months have been the most amazing time of my life. 
+                    Every day with you feels like a dream, and I can't imagine going to prom with anyone else.
+                </p>
+                <p class="promposal-text">
+                    <strong>Will you be my date to prom on October 18th at 7:27 PM?</strong>
+                </p>
+                <div class="promposal-buttons">
+                    <button class="yes-button">YES! 💕</button>
+                    <button class="no-button">Maybe... 😏</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
