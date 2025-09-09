@@ -4,6 +4,41 @@ let hints = [];
 let gamesCompleted = new Set();
 let isPromposalRevealed = false;
 
+// Misleading/random clues for guesses
+const misleadingClues = [
+    "Close! Think about what we do together at night... 💃",
+    "Hmm... warmer than Antarctica, colder than the sun. ❄️☀️",
+    "You're on the right planet. Keep going. 🌍",
+    "Not quite. Try thinking sideways instead of forward. 🔄",
+    "It’s definitely not a left-handed spatula. Probably. 🍳",
+    "Consider the mysteries of socks that vanish in the dryer. 🧦",
+    "Closer than Mars, farther than your nose. 👃🚀",
+    "Imagine a penguin wearing sunglasses. Now keep guessing. 🐧🕶️",
+    "You’ve unlocked: +1 confusion. Keep trying! 🧩",
+    "Try thinking of something that smells like blue. 💙👃",
+    "A clue: The mitochondria is the powerhouse of the cell. 🔬",
+    "It’s exactly 42 things away from that guess. 42. 🔢",
+    "Wrong, but stylish. Keep it up. 😎",
+    "Consider the sound a cloud would make if it meowed. ☁️🐱",
+    "Try again after consulting the Oracle (aka vibes). 🔮",
+    "So close that even Schrödinger is confused. 🐱📦",
+    "If guesses were waffles, that one was syrupy. 🧇",
+    "That guess just did a backflip and landed sideways. 🤸",
+    "New hint: triangles are sometimes pointy. 🔺",
+    "This is not a clue. Or is it? 🕵️"
+];
+
+let lastClueIndex = -1;
+function getRandomClue() {
+    if (misleadingClues.length === 1) return misleadingClues[0];
+    let idx = Math.floor(Math.random() * misleadingClues.length);
+    while (idx === lastClueIndex) {
+        idx = Math.floor(Math.random() * misleadingClues.length);
+    }
+    lastClueIndex = idx;
+    return misleadingClues[idx];
+}
+
 // Game schedule - you'll need to update these dates
 const gameSchedule = [
     {
@@ -430,8 +465,8 @@ function setupEventListeners() {
     guessButton.addEventListener('click', function() {
         const guess = guessInput.value.trim();
         if (guess) {
-            // Always show "Nope" until the final reveal
-            guessResponse.textContent = 'Nope! Keep trying! 😊';
+            // Always show a playful misleading clue until the final reveal
+            guessResponse.textContent = getRandomClue();
             guessResponse.className = 'guess-response incorrect';
             guessInput.value = '';
             guessButton.disabled = true;
@@ -486,7 +521,8 @@ function showPromposalButton() {
             guessResponse.textContent = 'You got it! Click the button above for the full reveal! 🎉';
             guessResponse.className = 'guess-response correct';
         } else {
-            guessResponse.textContent = 'Close! Think about what we do together at night... 💃';
+            // After reveal, still show misleading/random clue on wrong guesses
+            guessResponse.textContent = getRandomClue();
             guessResponse.className = 'guess-response incorrect';
         }
         
