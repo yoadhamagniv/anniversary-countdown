@@ -330,8 +330,28 @@
             document.getElementById('quizContent').style.display = 'none';
             document.getElementById('congratsSection').classList.add('show');
             
-            // Always return the fixed passkey
-            document.getElementById('passkeyCode').textContent = 'QUIZ2024';
+            // Only give passcode if she got at least 3 out of 4 questions correct
+            if (score >= 3) {
+                document.getElementById('passkeyCode').textContent = 'QUIZ2024';
+                document.querySelector('.passkey-section').style.display = 'block';
+            } else {
+                // Show try again message
+                document.querySelector('.congrats-title').innerHTML = `
+                    <i class="fas fa-heart-broken"></i>
+                    Not quite! Try again!
+                    <i class="fas fa-heart-broken"></i>
+                `;
+                document.querySelector('.passkey-section').style.display = 'none';
+                
+                // Add retry button
+                const retryBtn = document.createElement('button');
+                retryBtn.className = 'next-btn';
+                retryBtn.innerHTML = '<i class="fas fa-redo"></i> Try Again';
+                retryBtn.onclick = () => {
+                    location.reload();
+                };
+                document.querySelector('.congrats-section').appendChild(retryBtn);
+            }
         }
 
         // Initialize quiz when page loads
