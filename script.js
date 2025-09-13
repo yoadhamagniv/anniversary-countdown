@@ -249,6 +249,25 @@ function loadHints() {
     }
 }
 
+function clearAllData() {
+    // Clear all localStorage data
+    localStorage.removeItem('anniversaryHints');
+    localStorage.removeItem('anniversaryGames');
+    
+    // Reset variables
+    hints = [];
+    gamesCompleted = new Set();
+    
+    // Update display
+    updateHintsDisplay();
+    
+    // Show confirmation
+    alert('All data cleared! The page will reload.');
+    
+    // Reload page
+    location.reload();
+}
+
 function saveHints() {
     localStorage.setItem('anniversaryHints', JSON.stringify(hints));
     localStorage.setItem('anniversaryGames', JSON.stringify([...gamesCompleted]));

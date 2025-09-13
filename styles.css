@@ -622,6 +622,24 @@ body {
     backdrop-filter: blur(10px);
 }
 
+.clear-data-btn {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 10px 0;
+}
+
+.clear-data-btn:hover {
+    background: #c82333;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
 .hints-section h3 {
     font-size: 1.6rem;
     margin-bottom: 20px;
