@@ -39,21 +39,21 @@
         .memory-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 12px;
-            max-width: 700px;
+            gap: 8px;
+            max-width: 500px;
             margin: 0 auto 30px;
         }
         .memory-card {
             aspect-ratio: 1;
             background: #f8f9fa;
             border: 2px solid #e9ecef;
-            border-radius: 12px;
+            border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
             transform-style: preserve-3d;
-            min-height: 100px;
+            min-height: 80px;
         }
         .memory-card:hover {
             border-color: #667eea;
@@ -76,7 +76,7 @@
             background-position: center;
             background-repeat: no-repeat;
             background-color: white;
-            font-size: 2.5rem;
+            font-size: 1.2rem;
             color: #667eea;
         }
         .memory-card .card-front {
@@ -86,7 +86,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 10px;
+            border-radius: 6px;
             background-color: white;
         }
         .memory-card .card-front .placeholder {
@@ -96,9 +96,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.5rem;
+            font-size: 1.5rem;
             color: #667eea;
-            border-radius: 10px;
+            border-radius: 6px;
         }
         .memory-card.flipped .card-back {
             transform: rotateY(180deg);
