@@ -33,6 +33,54 @@ const memoryMatchData = [
         full: "images/mm4_full.jpg",
         description: "The moment I knew you were the one",
         loveMessage: "Every day with you confirms what I felt that day. You're not just my girlfriend, you're my best friend and my future."
+    },
+    {
+        id: 5,
+        part1: "images/mm5_part1.jpg",
+        part2: "images/mm5_part2.jpg",
+        full: "images/mm5_full.jpg",
+        description: "That time we got lost but found each other",
+        loveMessage: "Even when we're lost, being with you feels like home. You're my compass, my anchor, my everything."
+    },
+    {
+        id: 6,
+        part1: "images/mm6_part1.jpg",
+        part2: "images/mm6_part2.jpg",
+        full: "images/mm6_full.jpg",
+        description: "Laughing until our stomachs hurt",
+        loveMessage: "Your laugh is my favorite melody. I could listen to it forever and never get tired of the music it makes."
+    },
+    {
+        id: 7,
+        part1: "images/mm7_part1.jpg",
+        part2: "images/mm7_part2.jpg",
+        full: "images/mm7_full.jpg",
+        description: "The way you look at me when you think I'm not looking",
+        loveMessage: "I see the love in your eyes even when you think I don't. It's the most beautiful thing I've ever witnessed."
+    },
+    {
+        id: 8,
+        part1: "images/mm8_part1.jpg",
+        part2: "images/mm8_part2.jpg",
+        full: "images/mm8_full.jpg",
+        description: "Our first adventure together",
+        loveMessage: "Every adventure is better with you by my side. You make the ordinary extraordinary and the impossible possible."
+    },
+    {
+        id: 9,
+        part1: "images/mm9_part1.jpg",
+        part2: "images/mm9_part2.jpg",
+        full: "images/mm9_full.jpg",
+        description: "That perfect morning we never wanted to end",
+        loveMessage: "Mornings with you are my favorite part of the day. Waking up next to you is like waking up to sunshine."
+    },
+    {
+        id: 10,
+        part1: "images/mm10_part1.jpg",
+        part2: "images/mm10_part2.jpg",
+        full: "images/mm10_full.jpg",
+        description: "The moment I fell in love with you all over again",
+        loveMessage: "I fall in love with you more every single day. You're not just my past and present, you're my forever future."
     }
 ];
 
@@ -42,3 +90,6 @@ const memoryMatchData = [
 // 3. Write personal love messages for each photo
 // 4. Make sure you have both "part1" and "part2" versions of each image
 // 5. The "full" image should be the complete, unedited photo
+// 6. Create a back.png image for the card backs (will be resized to fit)
+// 7. Images don't need to be the same size - they'll be cropped to fit the card shape
+// 8. You need 10 pairs total (20 cards): mm1_part1.jpg, mm1_part2.jpg, mm1_full.jpg, etc.
