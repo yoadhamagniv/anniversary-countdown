@@ -39,40 +39,43 @@ function getRandomClue() {
     return misleadingClues[idx];
 }
 
-// Game schedule - you'll need to update these dates
+// Game schedule - games unlock after Shabbat ends
 const gameSchedule = [
     {
-        date: new Date('2024-09-19T00:00:00'),
+        date: new Date('2024-09-20T20:15:00-04:00'), // After Shabbat ends September 20th
         game: 'quiz',
         hint: 'This is a gift you might say no to (hopefully not).'
     },
     {
-        date: new Date('2024-09-27T00:00:00'),
+        date: new Date('2024-09-27T20:05:00-04:00'), // After Shabbat ends September 27th
         game: 'memory',
         hint: 'It\'s something you never had before.'
     },
     {
-        date: new Date('2024-10-04T00:00:00'),
+        date: new Date('2024-10-04T19:55:00-04:00'), // After Shabbat ends October 4th
         game: 'hebrew',
         hint: 'I have to give it to you at night.'
     },
     {
-        date: new Date('2024-10-11T00:00:00'),
+        date: new Date('2024-10-11T19:45:00-04:00'), // After Shabbat ends October 11th
         game: 'ctf',
         hint: 'This gift really packs a punch.'
     }
 ];
 
-// Final countdown target: October 18th, 7:27 PM Texas time
-const finalCountdownTarget = new Date('2024-10-18T19:27:00-05:00'); // Texas time (CDT)
+// Final countdown target: October 18th, 7:27 PM Texas time (CDT)
+const finalCountdownTarget = new Date('2024-10-18T19:27:00-05:00'); // October 18th, 7:27 PM Texas time (CDT)
+
+// Simple time validation for GitHub Pages
+let timeValidationEnabled = false; // Disabled for GitHub Pages compatibility
 
 // Shabbat end times (Connecticut time) - you'll need to provide exact times
 const shabbatEndTimes = [
-    new Date('2024-09-20T20:15:00-04:00'), // September 20th
-    new Date('2024-09-27T20:05:00-04:00'), // September 27th
-    new Date('2024-10-04T19:55:00-04:00'), // October 4th
-    new Date('2024-10-11T19:45:00-04:00'), // October 11th
-    new Date('2024-10-18T19:35:00-04:00')  // October 18th
+    new Date('2024-09-20T20:15:00-04:00'), // September 20th (Friday night)
+    new Date('2024-09-27T20:05:00-04:00'), // September 27th (Friday night)
+    new Date('2024-10-04T19:55:00-04:00'), // October 4th (Friday night)
+    new Date('2024-10-11T19:45:00-04:00'), // October 11th (Friday night)
+    new Date('2024-10-18T19:35:00-04:00')  // October 18th (Friday night)
 ];
 
 // Quiz questions and answers
@@ -115,6 +118,15 @@ const memoryImages = [
 
 // CTF password (you can change this)
 const ctfPassword = "PROM2024";
+
+// Simple time function for GitHub Pages
+function getValidatedTime() {
+    return new Date();
+}
+
+function validateTimeIntegrity() {
+    return true; // Always return true for GitHub Pages
+}
 
 // Initialize the app
 document.addEventListener('DOMContentLoaded', function() {

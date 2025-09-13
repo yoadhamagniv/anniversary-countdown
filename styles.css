@@ -119,6 +119,30 @@ body {
     padding: 15px;
 }
 
+.time-status {
+    margin-top: 15px;
+    font-size: 0.9rem;
+    color: #28a745;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    opacity: 0.8;
+}
+
+.time-status i {
+    font-size: 1rem;
+}
+
+.time-status.warning {
+    color: #ff6b6b;
+}
+
+.time-status.error {
+    color: #dc3545;
+    animation: pulse 1s infinite;
+}
+
 /* Mini Game Section */
 .mini-game-section {
     background: rgba(255, 255, 255, 0.95);
