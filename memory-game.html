@@ -37,10 +37,11 @@
             font-size: 1.1rem;
         }
         .memory-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
             gap: 6px;
-            width: 324px;
+            max-width: 330px;
             margin: 0 auto 30px;
         }
         .memory-card {
@@ -54,6 +55,7 @@
             position: relative;
             overflow: hidden;
             transform-style: preserve-3d;
+            flex-shrink: 0;
         }
         .memory-card:hover {
             border-color: #667eea;
