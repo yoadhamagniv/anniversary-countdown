@@ -330,17 +330,8 @@
             document.getElementById('quizContent').style.display = 'none';
             document.getElementById('congratsSection').classList.add('show');
             
-            // Generate passkey based on score
-            const passkey = generatePasskey(score);
-            document.getElementById('passkeyCode').textContent = passkey;
-        }
-
-        function generatePasskey(score) {
-            // Generate a passkey based on score and current date
-            const date = new Date();
-            const dateStr = date.getDate().toString().padStart(2, '0');
-            const monthStr = (date.getMonth() + 1).toString().padStart(2, '0');
-            return `QUIZ${monthStr}${dateStr}${score}`;
+            // Always return the fixed passkey
+            document.getElementById('passkeyCode').textContent = 'QUIZ2024';
         }
 
         // Initialize quiz when page loads
