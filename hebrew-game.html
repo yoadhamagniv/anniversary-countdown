@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hebrew Scramble - Anniversary Countdown</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .hebrew-page {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .hebrew-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 700px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .hebrew-title {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        .hebrew-subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+        .hebrew-scramble-container {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .scrambled-words {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .word-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            opacity: 0.6;
+        }
+        .word-item.current {
+            opacity: 1;
+            background: #e3f2fd;
+            border: 2px solid #667eea;
+        }
+        .scrambled-word {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #333;
+            min-width: 120px;
+            direction: rtl;
+            text-align: center;
+        }
+        .hebrew-input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            direction: rtl;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .hebrew-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .hebrew-input:disabled {
+            background: #f8f9fa;
+            cursor: not-allowed;
+        }
+        .hebrew-input.correct {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+        .hebrew-input.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+            animation: shake 0.5s ease-in-out;
+        }
+        .word-status {
+            min-width: 30px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        .word-status.correct {
+            color: #28a745;
+        }
+        .word-status.incorrect {
+            color: #dc3545;
+        }
+        .progress-info {
+            margin: 20px 0;
+            font-weight: 600;
+            color: #666;
+        }
+        .message-preview {
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .message-preview h5 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .complete-message {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            direction: rtl;
+            text-align: center;
+        }
+        .solved-word {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin: 0 2px;
+        }
+        .complete-message.complete {
+            animation: messageReveal 2s ease-in-out;
+        }
+        .congrats-section {
+            display: none;
+            text-align: center;
+        }
+        .congrats-section.show {
+            display: block;
+        }
+        .congrats-title {
+            font-size: 2.5rem;
+            color: #28a745;
+            margin-bottom: 20px;
+        }
+        .passkey-section {
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+        .passkey-title {
+            font-size: 1.3rem;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .passkey-code {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #333;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            letter-spacing: 3px;
+            font-family: monospace;
+        }
+        .passkey-instructions {
+            color: #666;
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+        .back-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .back-btn:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+        @keyframes messageReveal {
+            0% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            50% {
+                opacity: 0.8;
+                transform: scale(1.05);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+    </style>
+</head>
+<body class="hebrew-page">
+    <div class="hebrew-container">
+        <h1 class="hebrew-title">
+            <i class="fas fa-heart"></i>
+            Hebrew Love Message Scramble
+            <i class="fas fa-heart"></i>
+        </h1>
+        <p class="hebrew-subtitle">Unscramble the Hebrew words to reveal a special message!</p>
+        
+        <div class="hebrew-scramble-container">
+            <div class="scrambled-words" id="scrambledWords">
+                <!-- Words will be loaded here -->
+            </div>
+            <div class="progress-info">
+                <span id="progressText">Word 1 of 23</span>
+            </div>
+            <div class="message-preview" id="messagePreview" style="display: none;">
+                <h5>Complete Message:</h5>
+                <div class="complete-message" id="completeMessage"></div>
+            </div>
+        </div>
+        
+        <div class="congrats-section" id="congratsSection">
+            <h2 class="congrats-title">
+                <i class="fas fa-trophy"></i>
+                Perfect! You unscrambled the love message!
+                <i class="fas fa-trophy"></i>
+            </h2>
+            <div class="passkey-section">
+                <h3 class="passkey-title">Your Hint Unlock Code:</h3>
+                <div class="passkey-code" id="passkeyCode">HEBREW2024</div>
+                <p class="passkey-instructions">
+                    You might want to hold on to this passcode. Enter it in the main countdown page to unlock your hint!
+                </p>
+            </div>
+            <button class="back-btn" onclick="window.location.href='index.html'">
+                <i class="fas fa-arrow-left"></i> Back to Countdown
+            </button>
+        </div>
+    </div>
+
+    <script src="hebrew-data.js"></script>
+    <script>
+        let currentWordIndex = 0;
+        let allWordsSolved = false;
+        let startTime = Date.now();
+
+        function initHebrewGame() {
+            const words = [...hebrewLoveMessage.words];
+            const scrambledWords = words.map(word => ({
+                original: word,
+                scrambled: scrambleWord(word),
+                solved: false
+            }));
+            
+            const scrambledWordsContainer = document.getElementById('scrambledWords');
+            scrambledWordsContainer.innerHTML = scrambledWords.map((word, index) => `
+                <div class="word-item ${index === 0 ? 'current' : ''}" data-index="${index}">
+                    <div class="scrambled-word">${word.scrambled}</div>
+                    <input type="text" class="hebrew-input" placeholder="Type the word here..." data-index="${index}" ${index !== 0 ? 'disabled' : ''}>
+                    <div class="word-status"></div>
+                </div>
+            `).join('');
+            
+            // Add event listeners for input fields
+            document.querySelectorAll('.hebrew-input').forEach(input => {
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        checkWord(this);
+                    }
+                });
+                
+                input.addEventListener('input', function() {
+                    if (this.value.trim()) {
+                        this.nextElementSibling.textContent = '';
+                    }
+                });
+            });
+        }
+
+        function scrambleWord(word) {
+            return word.split('').sort(() => Math.random() - 0.5).join('');
+        }
+
+        function checkWord(inputElement) {
+            const index = parseInt(inputElement.dataset.index);
+            const userAnswer = inputElement.value.trim();
+            const correctAnswer = hebrewLoveMessage.words[index];
+            
+            if (userAnswer === correctAnswer) {
+                // Correct!
+                inputElement.disabled = true;
+                inputElement.classList.add('correct');
+                inputElement.nextElementSibling.innerHTML = '✓';
+                inputElement.nextElementSibling.className = 'word-status correct';
+                
+                // Move to next word
+                currentWordIndex++;
+                if (currentWordIndex < hebrewLoveMessage.words.length) {
+                    const nextInput = document.querySelector(`[data-index="${currentWordIndex}"] .hebrew-input`);
+                    nextInput.disabled = false;
+                    nextInput.focus();
+                    document.querySelector(`[data-index="${currentWordIndex}"]`).classList.add('current');
+                    document.querySelector(`[data-index="${currentWordIndex - 1}"]`).classList.remove('current');
+                }
+                
+                updateProgress();
+                updateMessagePreview();
+                
+                // Check if all words are solved
+                if (currentWordIndex >= hebrewLoveMessage.words.length) {
+                    allWordsSolved = true;
+                    showCompleteMessage();
+                }
+            } else {
+                // Incorrect
+                inputElement.classList.add('incorrect');
+                inputElement.nextElementSibling.innerHTML = '✗';
+                inputElement.nextElementSibling.className = 'word-status incorrect';
+                
+                setTimeout(() => {
+                    inputElement.classList.remove('incorrect');
+                    inputElement.nextElementSibling.innerHTML = '';
+                    inputElement.nextElementSibling.className = 'word-status';
+                    inputElement.value = '';
+                }, 1000);
+            }
+        }
+
+        function updateProgress() {
+            document.getElementById('progressText').textContent = `Word ${currentWordIndex + 1} of ${hebrewLoveMessage.words.length}`;
+        }
+
+        function updateMessagePreview() {
+            const solvedWords = hebrewLoveMessage.words.slice(0, currentWordIndex);
+            const messagePreview = document.getElementById('messagePreview');
+            const completeMessage = document.getElementById('completeMessage');
+            
+            if (solvedWords.length > 0) {
+                messagePreview.style.display = 'block';
+                completeMessage.innerHTML = solvedWords.map(word => 
+                    `<span class="solved-word">${word}</span>`
+                ).join(' ');
+            }
+        }
+
+        function showCompleteMessage() {
+            setTimeout(() => {
+                const completeMessage = document.getElementById('completeMessage');
+                completeMessage.innerHTML = hebrewLoveMessage.fullMessage;
+                completeMessage.classList.add('complete');
+                
+                // Show animation
+                completeMessage.style.animation = 'messageReveal 2s ease-in-out';
+                
+                setTimeout(() => {
+                    finishGame();
+                }, 3000);
+            }, 1000);
+        }
+
+        function finishGame() {
+            document.getElementById('scrambledWords').style.display = 'none';
+            document.getElementById('messagePreview').style.display = 'none';
+            document.getElementById('congratsSection').classList.add('show');
+            
+            // Generate passkey based on completion time
+            const passkey = generatePasskey();
+            document.getElementById('passkeyCode').textContent = passkey;
+        }
+
+        function generatePasskey() {
+            // Generate a passkey based on completion time and current date
+            const date = new Date();
+            const dateStr = date.getDate().toString().padStart(2, '0');
+            const monthStr = (date.getMonth() + 1).toString().padStart(2, '0');
+            const completionTime = Math.floor((Date.now() - startTime) / 1000);
+            const timeCode = Math.min(99, Math.floor(completionTime / 10));
+            return `HEB${monthStr}${dateStr}${timeCode}`;
+        }
+
+        // Initialize game when page loads
+        document.addEventListener('DOMContentLoaded', initHebrewGame);
+    </script>
+</body>
+</html>

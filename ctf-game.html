@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CTF Challenge - Anniversary Countdown</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .ctf-page {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .ctf-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 700px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .ctf-title {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        .ctf-subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+        .ctf-challenge {
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+        .challenge-title {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .challenge-description {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        .challenge-link {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 10px 0;
+        }
+        .challenge-link:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .password-section {
+            margin: 30px 0;
+        }
+        .password-label {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        .password-input {
+            width: 100%;
+            max-width: 400px;
+            padding: 15px 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            text-align: center;
+            margin: 10px 0;
+            font-family: monospace;
+            letter-spacing: 2px;
+        }
+        .password-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .password-input.correct {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+        .password-input.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+            animation: shake 0.5s ease-in-out;
+        }
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 15px 0;
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .status-message {
+            margin: 15px 0;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+        .status-message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status-message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .congrats-section {
+            display: none;
+            text-align: center;
+        }
+        .congrats-section.show {
+            display: block;
+        }
+        .congrats-title {
+            font-size: 2.5rem;
+            color: #28a745;
+            margin-bottom: 20px;
+        }
+        .passkey-section {
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+        .passkey-title {
+            font-size: 1.3rem;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .passkey-code {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #333;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            letter-spacing: 3px;
+            font-family: monospace;
+        }
+        .passkey-instructions {
+            color: #666;
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+        .back-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .back-btn:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+        .hint-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #667eea;
+        }
+        .hint-title {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        .hint-text {
+            color: #666;
+            line-height: 1.5;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+    </style>
+</head>
+<body class="ctf-page">
+    <div class="ctf-container">
+        <h1 class="ctf-title">
+            <i class="fas fa-flag"></i>
+            Capture The Flag Challenge
+            <i class="fas fa-flag"></i>
+        </h1>
+        <p class="ctf-subtitle">Solve the challenge to unlock your hint!</p>
+        
+        <div class="ctf-challenge">
+            <h3 class="challenge-title">Love Island Challenge</h3>
+            <p class="challenge-description">
+                Click the link below to access the interactive Love Island challenge. 
+                Solve the puzzle and find the secret password that will unlock your hint!
+            </p>
+            <a href="https://view.genially.com/68bded39d2c452050a21cbe4/interactive-content-love-island" 
+               target="_blank" class="challenge-link">
+                <i class="fas fa-external-link-alt"></i> Open Love Island Challenge
+            </a>
+        </div>
+        
+        <div class="hint-section">
+            <h4 class="hint-title">💡 Hint</h4>
+            <p class="hint-text">
+                Look carefully through the interactive content. The password might be hidden in plain sight, 
+                or you might need to solve a puzzle to reveal it. Good luck! 🍀
+            </p>
+        </div>
+        
+        <div class="password-section">
+            <label for="passwordInput" class="password-label">Enter the password you found:</label>
+            <input type="text" id="passwordInput" class="password-input" placeholder="Enter password here...">
+            <button id="submitBtn" class="submit-btn">Submit Password</button>
+            <div id="statusMessage" class="status-message" style="display: none;"></div>
+        </div>
+        
+        <div class="congrats-section" id="congratsSection">
+            <h2 class="congrats-title">
+                <i class="fas fa-trophy"></i>
+                Excellent! You solved the challenge!
+                <i class="fas fa-trophy"></i>
+            </h2>
+            <div class="passkey-section">
+                <h3 class="passkey-title">Your Hint Unlock Code:</h3>
+                <div class="passkey-code" id="passkeyCode">CTF2024</div>
+                <p class="passkey-instructions">
+                    You might want to hold on to this passcode. Enter it in the main countdown page to unlock your hint!
+                </p>
+            </div>
+            <button class="back-btn" onclick="window.location.href='index.html'">
+                <i class="fas fa-arrow-left"></i> Back to Countdown
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const correctPassword = "JULESHASNICEBOOBS"; // You can change this
+
+        function initCTFGame() {
+            const passwordInput = document.getElementById('passwordInput');
+            const submitBtn = document.getElementById('submitBtn');
+            const statusMessage = document.getElementById('statusMessage');
+
+            // Add event listeners
+            passwordInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    checkPassword();
+                }
+            });
+
+            submitBtn.addEventListener('click', checkPassword);
+
+            // Enable submit button when there's input
+            passwordInput.addEventListener('input', function() {
+                submitBtn.disabled = this.value.trim() === '';
+                hideStatusMessage();
+            });
+        }
+
+        function checkPassword() {
+            const passwordInput = document.getElementById('passwordInput');
+            const userPassword = passwordInput.value.trim().toUpperCase();
+            const statusMessage = document.getElementById('statusMessage');
+
+            if (userPassword === correctPassword) {
+                // Correct password
+                passwordInput.classList.add('correct');
+                passwordInput.classList.remove('incorrect');
+                showStatusMessage('🎉 Correct! Well done!', 'success');
+                
+                setTimeout(() => {
+                    finishGame();
+                }, 2000);
+            } else {
+                // Incorrect password
+                passwordInput.classList.add('incorrect');
+                passwordInput.classList.remove('correct');
+                showStatusMessage('❌ Incorrect! Try again.', 'error');
+                
+                setTimeout(() => {
+                    passwordInput.classList.remove('incorrect');
+                    passwordInput.value = '';
+                    passwordInput.focus();
+                }, 1000);
+            }
+        }
+
+        function showStatusMessage(message, type) {
+            const statusMessage = document.getElementById('statusMessage');
+            statusMessage.textContent = message;
+            statusMessage.className = `status-message ${type}`;
+            statusMessage.style.display = 'block';
+        }
+
+        function hideStatusMessage() {
+            const statusMessage = document.getElementById('statusMessage');
+            statusMessage.style.display = 'none';
+        }
+
+        function finishGame() {
+            document.getElementById('passwordInput').style.display = 'none';
+            document.getElementById('submitBtn').style.display = 'none';
+            document.getElementById('statusMessage').style.display = 'none';
+            document.getElementById('congratsSection').classList.add('show');
+            
+            // Generate passkey based on attempts
+            const passkey = generatePasskey();
+            document.getElementById('passkeyCode').textContent = passkey;
+        }
+
+        function generatePasskey() {
+            // Generate a passkey based on attempts and current date
+            const date = new Date();
+            const dateStr = date.getDate().toString().padStart(2, '0');
+            const monthStr = (date.getMonth() + 1).toString().padStart(2, '0');
+            const efficiency = Math.max(1, maxAttempts - attempts + 1);
+            return `CTF${monthStr}${dateStr}${efficiency}`;
+        }
+
+        // Initialize game when page loads
+        document.addEventListener('DOMContentLoaded', initCTFGame);
+    </script>
+</body>
+</html>

@@ -63,10 +63,64 @@
         </section>
 
         <!-- Mini Game Section -->
-        <section class="mini-game-section" id="miniGameSection" style="display: none;">
-            <h3>Unlock Your Next Hint!</h3>
-            <div class="game-container" id="gameContainer">
-                <!-- Games will be dynamically loaded here -->
+        <section class="mini-game-section" id="miniGameSection">
+            <h3>Unlock Your Hints!</h3>
+            <p>Complete these mini-games to unlock hints about the surprise!</p>
+            
+            <!-- Game 1: Quiz -->
+            <div class="game-countdown" id="game1">
+                <div class="game-countdown-timer">
+                    <span class="timer-label">Game 1 Unlocks In:</span>
+                    <div class="timer-display">
+                        <span id="game1Days">0</span>d
+                        <span id="game1Hours">0</span>h
+                        <span id="game1Minutes">0</span>m
+                        <span id="game1Seconds">0</span>s
+                    </div>
+                </div>
+                <button class="game-unlock-btn" id="game1Btn" disabled>Game 1</button>
+            </div>
+            
+            <!-- Game 2: Memory -->
+            <div class="game-countdown" id="game2">
+                <div class="game-countdown-timer">
+                    <span class="timer-label">Game 2 Unlocks In:</span>
+                    <div class="timer-display">
+                        <span id="game2Days">0</span>d
+                        <span id="game2Hours">0</span>h
+                        <span id="game2Minutes">0</span>m
+                        <span id="game2Seconds">0</span>s
+                    </div>
+                </div>
+                <button class="game-unlock-btn" id="game2Btn" disabled>Game 2</button>
+            </div>
+            
+            <!-- Game 3: Hebrew -->
+            <div class="game-countdown" id="game3">
+                <div class="game-countdown-timer">
+                    <span class="timer-label">Game 3 Unlocks In:</span>
+                    <div class="timer-display">
+                        <span id="game3Days">0</span>d
+                        <span id="game3Hours">0</span>h
+                        <span id="game3Minutes">0</span>m
+                        <span id="game3Seconds">0</span>s
+                    </div>
+                </div>
+                <button class="game-unlock-btn" id="game3Btn" disabled>Game 3</button>
+            </div>
+            
+            <!-- Game 4: CTF -->
+            <div class="game-countdown" id="game4">
+                <div class="game-countdown-timer">
+                    <span class="timer-label">Game 4 Unlocks In:</span>
+                    <div class="timer-display">
+                        <span id="game4Days">0</span>d
+                        <span id="game4Hours">0</span>h
+                        <span id="game4Minutes">0</span>m
+                        <span id="game4Seconds">0</span>s
+                    </div>
+                </div>
+                <button class="game-unlock-btn" id="game4Btn" disabled>Game 4</button>
             </div>
         </section>
 
@@ -77,10 +131,19 @@
                 <p class="no-hints">Complete mini-games to unlock hints!</p>
             </div>
             
+            <div class="passkey-section">
+                <h4>Unlock Hints with Game Codes</h4>
+                <div class="passkey-input-container">
+                    <input type="text" id="passkeyInput" placeholder="Enter game completion code...">
+                    <button id="passkeyButton" disabled>Unlock Hint</button>
+                </div>
+                <div class="passkey-response" id="passkeyResponse"></div>
+            </div>
+            
             <div class="guess-section">
                 <h4>What do you think the surprise is?</h4>
                 <div class="guess-input-container">
-                    <input type="text" id="guessInput" placeholder="Enter your guess..." disabled>
+                    <input type="text" id="guessInput" placeholder="Enter your guess...">
                     <button id="guessButton" disabled>Guess</button>
                 </div>
                 <div class="guess-response" id="guessResponse"></div>
@@ -124,6 +187,10 @@
         </div>
     </div>
 
+    <script src="countdown-dates.js"></script>
+    <script src="quiz-data.js"></script>
+    <script src="hebrew-data.js"></script>
+    <script src="memory-data.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

@@ -156,8 +156,87 @@ body {
 
 .mini-game-section h3 {
     font-size: 1.6rem;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     color: #333;
+}
+
+.mini-game-section p {
+    color: #666;
+    margin-bottom: 25px;
+    font-size: 1.1rem;
+}
+
+.game-countdown {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-radius: 15px;
+    padding: 25px;
+    margin: 20px 0;
+    text-align: center;
+    border: 2px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.game-countdown.unlocked {
+    border-color: #28a745;
+    background: linear-gradient(135deg, #d4edda, #c3e6cb);
+}
+
+.game-countdown-timer {
+    margin-bottom: 20px;
+}
+
+.timer-label {
+    display: block;
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.timer-display {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.timer-display span {
+    background: #667eea;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    min-width: 50px;
+}
+
+.game-unlock-btn {
+    background: linear-gradient(135deg, #6c757d, #5a6268);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 120px;
+}
+
+.game-unlock-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.game-unlock-btn:not(:disabled) {
+    background: linear-gradient(135deg, #28a745, #20c997);
+}
+
+.game-unlock-btn:not(:disabled):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
 .game-container {
@@ -260,7 +339,7 @@ body {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 10px;
-    max-width: 400px;
+    max-width: 500px;
     margin: 0 auto;
 }
 
@@ -270,59 +349,245 @@ body {
     border: 2px solid #e9ecef;
     border-radius: 10px;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    transform-style: preserve-3d;
 }
 
 .memory-card:hover {
     border-color: #667eea;
 }
 
-.memory-card.flipped {
-    background: white;
-    border-color: #667eea;
+.memory-card .card-back,
+.memory-card .card-front {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backface-visibility: hidden;
+    transition: transform 0.6s;
+}
+
+.memory-card .card-back {
+    background: #f8f9fa;
+    font-size: 2rem;
+    color: #667eea;
+}
+
+.memory-card .card-front {
+    transform: rotateY(180deg);
+}
+
+.memory-card .card-front img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.memory-card.flipped .card-back {
+    transform: rotateY(180deg);
+}
+
+.memory-card.flipped .card-front {
+    transform: rotateY(0deg);
 }
 
 .memory-card.matched {
-    background: #28a745;
-    color: white;
     border-color: #28a745;
+    box-shadow: 0 0 20px rgba(40, 167, 69, 0.3);
+}
+
+.memory-messages {
+    margin-top: 20px;
+}
+
+.completed-memory {
+    background: linear-gradient(135deg, #ff9a9e, #fecfef);
+    border-radius: 15px;
+    padding: 20px;
+    margin: 10px 0;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+}
+
+.completed-memory.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.completed-image {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.completed-image img {
+    max-width: 200px;
+    max-height: 150px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.memory-text h5 {
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.memory-text p {
+    color: #666;
+    font-style: italic;
+    line-height: 1.5;
 }
 
 /* Hebrew Scramble */
-.scramble-container {
+.hebrew-scramble-container {
     text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
-.scramble-word {
-    font-size: 2rem;
+.scrambled-words {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.word-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    opacity: 0.6;
+}
+
+.word-item.current {
+    opacity: 1;
+    background: #e3f2fd;
+    border: 2px solid #667eea;
+}
+
+.scrambled-word {
+    font-size: 1.5rem;
     font-weight: 700;
     color: #333;
-    margin: 20px 0;
-    letter-spacing: 0.2em;
+    min-width: 120px;
     direction: rtl;
-}
-
-.scramble-input {
-    width: 100%;
-    max-width: 300px;
-    padding: 12px 20px;
-    border: 2px solid #e9ecef;
-    border-radius: 10px;
-    font-size: 1.1rem;
     text-align: center;
-    margin: 10px 0;
-    direction: rtl;
 }
 
-.scramble-input:focus {
+.hebrew-input {
+    flex: 1;
+    padding: 10px 15px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 1rem;
+    direction: rtl;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.hebrew-input:focus {
     outline: none;
     border-color: #667eea;
+}
+
+.hebrew-input:disabled {
+    background: #f8f9fa;
+    cursor: not-allowed;
+}
+
+.hebrew-input.correct {
+    background: #d4edda;
+    border-color: #28a745;
+    color: #155724;
+}
+
+.hebrew-input.incorrect {
+    background: #f8d7da;
+    border-color: #dc3545;
+    color: #721c24;
+    animation: shake 0.5s ease-in-out;
+}
+
+.word-status {
+    min-width: 30px;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.word-status.correct {
+    color: #28a745;
+}
+
+.word-status.incorrect {
+    color: #dc3545;
+}
+
+.progress-info {
+    margin: 20px 0;
+    font-weight: 600;
+    color: #666;
+}
+
+.message-preview {
+    background: linear-gradient(135deg, #ff9a9e, #fecfef);
+    border-radius: 15px;
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.message-preview h5 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.complete-message {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    direction: rtl;
+    text-align: center;
+}
+
+.solved-word {
+    background: rgba(255, 255, 255, 0.7);
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin: 0 2px;
+}
+
+.complete-message.complete {
+    animation: messageReveal 2s ease-in-out;
+}
+
+@keyframes messageReveal {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    50% {
+        opacity: 0.8;
+        transform: scale(1.05);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
 }
 
 /* CTF Game */
@@ -394,6 +659,99 @@ body {
     color: #666;
     font-style: italic;
     padding: 20px;
+}
+
+.passkey-section {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
+    border-radius: 15px;
+    border: 2px solid #667eea;
+}
+
+.passkey-section h4 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.passkey-input-container {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+#passkeyInput {
+    padding: 12px 20px;
+    border: 2px solid #e9ecef;
+    border-radius: 25px;
+    font-size: 1rem;
+    min-width: 250px;
+    outline: none;
+    transition: border-color 0.3s ease;
+    font-family: monospace;
+    letter-spacing: 1px;
+}
+
+#passkeyInput:focus {
+    border-color: #667eea;
+}
+
+#passkeyInput:disabled {
+    background: #f8f9fa;
+    cursor: not-allowed;
+}
+
+#passkeyButton {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#passkeyButton:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+#passkeyButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.passkey-response {
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.passkey-response.success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.passkey-response.error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.passkey-response.info {
+    background: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
 }
 
 .guess-section {

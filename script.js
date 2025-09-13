@@ -6,18 +6,18 @@ let isPromposalRevealed = false;
 
 // Misleading/random clues for guesses
 const misleadingClues = [
-    "Close! Think about what we do together at night... 💃",
+    "Close! Think about what we do together at night...",
     "Hmm... warmer than Antarctica, colder than the sun. ❄️☀️",
     "You're on the right planet. Keep going. 🌍",
     "Not quite. Try thinking sideways instead of forward. 🔄",
-    "It’s definitely not a left-handed spatula. Probably. 🍳",
+    "It's definitely not a left-handed spatula. Probably. 🍳",
     "Consider the mysteries of socks that vanish in the dryer. 🧦",
     "Closer than Mars, farther than your nose. 👃🚀",
     "Imagine a penguin wearing sunglasses. Now keep guessing. 🐧🕶️",
-    "You’ve unlocked: +1 confusion. Keep trying! 🧩",
+    "You've unlocked: +1 confusion. Keep trying! 🧩",
     "Try thinking of something that smells like blue. 💙👃",
     "A clue: The mitochondria is the powerhouse of the cell. 🔬",
-    "It’s exactly 42 things away from that guess. 42. 🔢",
+    "It's exactly 42 things away from that guess. 42. 🔢",
     "Wrong, but stylish. Keep it up. 😎",
     "Consider the sound a cloud would make if it meowed. ☁️🐱",
     "Try again after consulting the Oracle (aka vibes). 🔮",
@@ -25,7 +25,27 @@ const misleadingClues = [
     "If guesses were waffles, that one was syrupy. 🧇",
     "That guess just did a backflip and landed sideways. 🤸",
     "New hint: triangles are sometimes pointy. 🔺",
-    "This is not a clue. Or is it? 🕵️"
+    "This is not a clue. Or is it? 🕵️",
+    "Nope! But you're getting warmer... or colder. 🌡️",
+    "That's not it, but I like your thinking! 🤔",
+    "Close, but no cigar! Wait, do you even smoke? 🚭",
+    "Wrong direction! Try going the other way. ↩️",
+    "Not quite! But you're on the right track... maybe? 🚂",
+    "That's a creative guess! Still wrong though. 🎨",
+    "Nope! But I appreciate the effort. 💪",
+    "Wrong! But you're getting closer... or farther. 📏",
+    "Not it! But keep trying, you'll get there! 🎯",
+    "That's not right, but I love your persistence! 💕",
+    "Nope! But you're making progress... I think. 📈",
+    "Wrong again! But don't give up! 🚀",
+    "Not quite! But you're getting warmer! 🔥",
+    "That's not it! But I believe in you! ✨",
+    "Nope! But you're on the right planet! 🌍",
+    "Wrong! But you're getting closer... or not. 🤷‍♀️",
+    "Not it! But I love your determination! 💪",
+    "That's not right! But keep going! 🏃‍♀️",
+    "Nope! But you're making me smile! 😊",
+    "Wrong! But you're getting there... maybe! 🎪"
 ];
 
 let lastClueIndex = -1;
@@ -39,82 +59,26 @@ function getRandomClue() {
     return misleadingClues[idx];
 }
 
-// Game schedule - games unlock after Shabbat ends
-const gameSchedule = [
-    {
-        date: new Date('2024-09-20T20:15:00-04:00'), // After Shabbat ends September 20th
-        game: 'quiz',
-        hint: 'This is a gift you might say no to (hopefully not).'
-    },
-    {
-        date: new Date('2024-09-27T20:05:00-04:00'), // After Shabbat ends September 27th
-        game: 'memory',
-        hint: 'It\'s something you never had before.'
-    },
-    {
-        date: new Date('2024-10-04T19:55:00-04:00'), // After Shabbat ends October 4th
-        game: 'hebrew',
-        hint: 'I have to give it to you at night.'
-    },
-    {
-        date: new Date('2024-10-11T19:45:00-04:00'), // After Shabbat ends October 11th
-        game: 'ctf',
-        hint: 'This gift really packs a punch.'
-    }
-];
+// Game unlock times are now loaded from countdown-dates.js
 
-// Final countdown target: October 18th, 7:27 PM Texas time (CDT)
-const finalCountdownTarget = new Date('2024-10-18T19:27:00-05:00'); // October 18th, 7:27 PM Texas time (CDT)
+// Valid passkeys for unlocking hints
+const validPasskeys = {
+    'QUIZ2024': 'This is a gift you might say no to (hopefully not).',
+    'MEMORY2024': 'It\'s something you never had before.',
+    'HEBREW2024': 'I have to give it to you at night.',
+    'CTF2024': 'This gift really packs a punch.'
+};
+
+// All countdown dates are now loaded from countdown-dates.js
 
 // Simple time validation for GitHub Pages
 let timeValidationEnabled = false; // Disabled for GitHub Pages compatibility
 
-// Shabbat end times (Connecticut time) - you'll need to provide exact times
-const shabbatEndTimes = [
-    new Date('2024-09-20T20:15:00-04:00'), // September 20th (Friday night)
-    new Date('2024-09-27T20:05:00-04:00'), // September 27th (Friday night)
-    new Date('2024-10-04T19:55:00-04:00'), // October 4th (Friday night)
-    new Date('2024-10-11T19:45:00-04:00'), // October 11th (Friday night)
-    new Date('2024-10-18T19:35:00-04:00')  // October 18th (Friday night)
-];
+// Quiz data is now loaded from quiz-data.js
 
-// Quiz questions and answers
-const quizData = [
-    {
-        question: "What was our first date?",
-        options: ["Coffee shop", "Movie theater", "Park walk", "Restaurant"],
-        correct: 0
-    },
-    {
-        question: "What's my favorite color?",
-        options: ["Blue", "Red", "Green", "Purple"],
-        correct: 0
-    },
-    {
-        question: "What do we do most often together?",
-        options: ["Watch movies", "Go for walks", "Cook together", "Play games"],
-        correct: 1
-    },
-    {
-        question: "What's the best part of our relationship?",
-        options: ["The laughter", "The adventures", "The quiet moments", "All of the above"],
-        correct: 3
-    }
-];
+// Hebrew data is now loaded from hebrew-data.js
 
-// Hebrew words for scramble game
-const hebrewWords = [
-    { hebrew: "אהבה", english: "love" },
-    { hebrew: "טקסס", english: "texas" },
-    { hebrew: "שמלה", english: "dress" },
-    { hebrew: "ריקוד", english: "dance" },
-    { hebrew: "מוזיקה", english: "music" }
-];
-
-// Memory game images (placeholder - you'll need to add actual images)
-const memoryImages = [
-    '💕', '🌟', '🎵', '🌹', '💖', '🎉', '🌈', '💝'
-];
+// Memory data is now loaded from memory-data.js
 
 // CTF password (you can change this)
 const ctfPassword = "PROM2024";
@@ -145,15 +109,25 @@ function initializeApp() {
     
     // Check for available games
     checkForAvailableGames();
+    
+    // Ensure guess input is enabled during normal operation
+    const guessInput = document.getElementById('guessInput');
+    const guessButton = document.getElementById('guessButton');
+    if (guessInput && guessButton) {
+        guessInput.disabled = false;
+        guessButton.disabled = false;
+    }
 }
 
 function startCountdowns() {
     updateMainCountdown();
     updateWeeklyCountdown();
+    updateGameCountdowns();
     
     // Update countdowns every second
     setInterval(updateMainCountdown, 1000);
     setInterval(updateWeeklyCountdown, 1000);
+    setInterval(updateGameCountdowns, 1000);
 }
 
 function updateMainCountdown() {
@@ -165,10 +139,10 @@ function updateMainCountdown() {
         return;
     }
     
-    const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+    const days = Math.max(0, Math.floor(timeLeft / (1000 * 60 * 60 * 24)));
+    const hours = Math.max(0, Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
+    const minutes = Math.max(0, Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60)));
+    const seconds = Math.max(0, Math.floor((timeLeft % (1000 * 60)) / 1000));
     
     document.getElementById('days').textContent = days;
     document.getElementById('hours').textContent = hours;
@@ -194,9 +168,9 @@ function updateWeeklyCountdown() {
     }
     
     const timeLeft = nextShabbat - now;
-    const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+    const days = Math.max(0, Math.floor(timeLeft / (1000 * 60 * 60 * 24)));
+    const hours = Math.max(0, Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
+    const minutes = Math.max(0, Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60)));
     
     document.getElementById('weeklyDays').textContent = days;
     document.getElementById('weeklyHours').textContent = hours;
@@ -205,233 +179,49 @@ function updateWeeklyCountdown() {
     document.getElementById('weeklyCountdown').style.display = 'block';
 }
 
-function checkForAvailableGames() {
+function updateGameCountdowns() {
     const now = new Date();
     
-    for (const gameInfo of gameSchedule) {
-        if (now >= gameInfo.date && !gamesCompleted.has(gameInfo.game)) {
-            showMiniGame(gameInfo.game, gameInfo.hint);
-            break;
-        }
-    }
-}
-
-function showMiniGame(gameType, hint) {
-    const miniGameSection = document.getElementById('miniGameSection');
-    const gameContainer = document.getElementById('gameContainer');
-    
-    miniGameSection.style.display = 'block';
-    
-    switch (gameType) {
-        case 'quiz':
-            createQuizGame(gameContainer, hint);
-            break;
-        case 'memory':
-            createMemoryGame(gameContainer, hint);
-            break;
-        case 'hebrew':
-            createHebrewGame(gameContainer, hint);
-            break;
-        case 'ctf':
-            createCTFGame(gameContainer, hint);
-            break;
-    }
-    
-    currentGame = gameType;
-}
-
-function createQuizGame(container, hint) {
-    container.innerHTML = `
-        <div class="game">
-            <h4>Relationship Quiz</h4>
-            <p>Answer these questions about our relationship to unlock your hint!</p>
-            <div class="quiz-container" id="quizContainer">
-                <!-- Questions will be loaded here -->
-            </div>
-            <button class="game-button" id="submitQuiz" disabled>Submit Answers</button>
-        </div>
-    `;
-    
-    const quizContainer = document.getElementById('quizContainer');
-    let currentQuestion = 0;
-    let answers = [];
-    
-    function loadQuestion() {
-        if (currentQuestion >= quizData.length) {
-            checkQuizAnswers();
-            return;
-        }
+    gameUnlockTimes.forEach(game => {
+        const timeLeft = game.unlockTime - now;
+        const days = Math.max(0, Math.floor(timeLeft / (1000 * 60 * 60 * 24)));
+        const hours = Math.max(0, Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
+        const minutes = Math.max(0, Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60)));
+        const seconds = Math.max(0, Math.floor((timeLeft % (1000 * 60)) / 1000));
         
-        const question = quizData[currentQuestion];
-        quizContainer.innerHTML = `
-            <div class="question">${question.question}</div>
-            <div class="options">
-                ${question.options.map((option, index) => 
-                    `<div class="option" data-index="${index}">${option}</div>`
-                ).join('')}
-            </div>
-        `;
+        // Update timer display
+        document.getElementById(`game${game.id}Days`).textContent = days;
+        document.getElementById(`game${game.id}Hours`).textContent = hours;
+        document.getElementById(`game${game.id}Minutes`).textContent = minutes;
+        document.getElementById(`game${game.id}Seconds`).textContent = seconds;
         
-        // Add click handlers
-        document.querySelectorAll('.option').forEach(option => {
-            option.addEventListener('click', function() {
-                document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
-                this.classList.add('selected');
-                answers[currentQuestion] = parseInt(this.dataset.index);
-                document.getElementById('submitQuiz').disabled = false;
-            });
-        });
-    }
-    
-    function checkQuizAnswers() {
-        let correct = 0;
-        quizData.forEach((question, index) => {
-            if (answers[index] === question.correct) {
-                correct++;
-            }
-        });
+        // Check if game is unlocked
+        const gameElement = document.getElementById(`game${game.id}`);
+        const gameBtn = document.getElementById(`game${game.id}Btn`);
         
-        if (correct >= 3) { // Need at least 3 out of 4 correct
-            completeGame(hint);
-        } else {
-            alert('Not quite! Try again.');
-            currentQuestion = 0;
-            answers = [];
-            loadQuestion();
-        }
-    }
-    
-    document.getElementById('submitQuiz').addEventListener('click', function() {
-        if (answers[currentQuestion] !== undefined) {
-            currentQuestion++;
-            loadQuestion();
-        }
-    });
-    
-    loadQuestion();
-}
-
-function createMemoryGame(container, hint) {
-    const cards = [...memoryImages, ...memoryImages].sort(() => Math.random() - 0.5);
-    let flippedCards = [];
-    let matchedPairs = 0;
-    
-    container.innerHTML = `
-        <div class="game">
-            <h4>Memory Match</h4>
-            <p>Match the pairs to unlock your hint!</p>
-            <div class="memory-grid" id="memoryGrid">
-                ${cards.map((image, index) => 
-                    `<div class="memory-card" data-index="${index}">?</div>`
-                ).join('')}
-            </div>
-        </div>
-    `;
-    
-    document.querySelectorAll('.memory-card').forEach(card => {
-        card.addEventListener('click', function() {
-            if (flippedCards.length < 2 && !this.classList.contains('flipped')) {
-                const index = parseInt(this.dataset.index);
-                this.textContent = cards[index];
-                this.classList.add('flipped');
-                flippedCards.push({ element: this, index });
-                
-                if (flippedCards.length === 2) {
-                    setTimeout(checkMatch, 1000);
-                }
-            }
-        });
-    });
-    
-    function checkMatch() {
-        const [card1, card2] = flippedCards;
-        
-        if (cards[card1.index] === cards[card2.index]) {
-            card1.element.classList.add('matched');
-            card2.element.classList.add('matched');
-            matchedPairs++;
-            
-            if (matchedPairs === memoryImages.length) {
-                completeGame(hint);
-            }
-        } else {
-            card1.element.textContent = '?';
-            card2.element.textContent = '?';
-            card1.element.classList.remove('flipped');
-            card2.element.classList.remove('flipped');
-        }
-        
-        flippedCards = [];
-    }
-}
-
-function createHebrewGame(container, hint) {
-    const randomWord = hebrewWords[Math.floor(Math.random() * hebrewWords.length)];
-    const scrambled = scrambleWord(randomWord.hebrew);
-    
-    container.innerHTML = `
-        <div class="game">
-            <h4>Hebrew Word Scramble</h4>
-            <p>Unscramble this Hebrew word to unlock your hint!</p>
-            <div class="scramble-container">
-                <div class="scramble-word">${scrambled}</div>
-                <input type="text" class="scramble-input" id="hebrewInput" placeholder="Enter the English word...">
-                <button class="game-button" id="checkHebrew">Check Answer</button>
-            </div>
-        </div>
-    `;
-    
-    document.getElementById('checkHebrew').addEventListener('click', function() {
-        const answer = document.getElementById('hebrewInput').value.toLowerCase().trim();
-        if (answer === randomWord.english.toLowerCase()) {
-            completeGame(hint);
-        } else {
-            alert('Not quite! Try again.');
+        if (timeLeft <= 0) {
+            // Game is unlocked
+            gameElement.classList.add('unlocked');
+            gameBtn.disabled = false;
+            gameBtn.textContent = `Play Game ${game.id}`;
         }
     });
 }
 
-function createCTFGame(container, hint) {
-    container.innerHTML = `
-        <div class="game">
-            <h4>Capture The Flag Challenge</h4>
-            <p>Use this reference to find the password: <a href="https://view.genially.com/68bded39d2c452050a21cbe4/interactive-content-love-island" target="_blank">Love Island Challenge</a></p>
-            <div class="ctf-container">
-                <input type="text" class="ctf-password" id="ctfPassword" placeholder="Enter the password...">
-                <button class="game-button" id="checkCTF">Submit Password</button>
-            </div>
-        </div>
-    `;
-    
-    document.getElementById('checkCTF').addEventListener('click', function() {
-        const password = document.getElementById('ctfPassword').value.trim();
-        if (password === ctfPassword) {
-            completeGame(hint);
-        } else {
-            alert('Incorrect password! Try again.');
-        }
-    });
+function checkForAvailableGames() {
+    // Games are now handled via separate pages and countdown timers
+    // This function is kept for compatibility but no longer needed
 }
 
-function scrambleWord(word) {
-    return word.split('').sort(() => Math.random() - 0.5).join('');
-}
-
-function completeGame(hint) {
-    gamesCompleted.add(currentGame);
-    addHint(hint);
-    
-    // Hide the mini-game section
-    document.getElementById('miniGameSection').style.display = 'none';
-    
-    // Check if there are more games available
-    setTimeout(checkForAvailableGames, 1000);
-}
+// Old game creation functions removed - games are now on separate pages
 
 function addHint(hint) {
-    hints.push(hint);
-    updateHintsDisplay();
-    saveHints();
+    // Check if hint already exists to prevent duplicates
+    if (!hints.includes(hint)) {
+        hints.push(hint);
+        updateHintsDisplay();
+        saveHints();
+    }
 }
 
 function updateHintsDisplay() {
@@ -465,23 +255,89 @@ function saveHints() {
 }
 
 function setupEventListeners() {
+    // Passkey input
+    const passkeyInput = document.getElementById('passkeyInput');
+    const passkeyButton = document.getElementById('passkeyButton');
+    const passkeyResponse = document.getElementById('passkeyResponse');
+    
+    if (passkeyInput && passkeyButton) {
+        passkeyInput.addEventListener('input', function() {
+            passkeyButton.disabled = this.value.trim() === '';
+        });
+        
+        // Add Enter key support for passkey input
+        passkeyInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !passkeyButton.disabled) {
+                passkeyButton.click();
+            }
+        });
+        
+        passkeyButton.addEventListener('click', function() {
+            const passkey = passkeyInput.value.trim().toUpperCase();
+            if (passkey) {
+                if (validPasskeys[passkey]) {
+                    // Check if hint already exists
+                    const hint = validPasskeys[passkey];
+                    if (hints.includes(hint)) {
+                        passkeyResponse.textContent = 'ℹ️ You already have this hint! Check your hints list above.';
+                        passkeyResponse.className = 'passkey-response info';
+                    } else {
+                        // Valid passkey - add hint
+                        addHint(hint);
+                        passkeyResponse.textContent = '🎉 Hint unlocked! Check your hints list above.';
+                        passkeyResponse.className = 'passkey-response success';
+                    }
+                    passkeyInput.value = '';
+                    passkeyButton.disabled = true;
+                } else {
+                    // Invalid passkey
+                    passkeyResponse.textContent = '❌ Invalid passkey. Make sure you completed the game correctly.';
+                    passkeyResponse.className = 'passkey-response error';
+                    passkeyInput.value = '';
+                    passkeyButton.disabled = true;
+                }
+            }
+        });
+    }
+    
     // Guess input
     const guessInput = document.getElementById('guessInput');
     const guessButton = document.getElementById('guessButton');
     const guessResponse = document.getElementById('guessResponse');
     
-    guessInput.addEventListener('input', function() {
-        guessButton.disabled = this.value.trim() === '';
-    });
+    if (guessInput && guessButton) {
+        guessInput.addEventListener('input', function() {
+            guessButton.disabled = this.value.trim() === '';
+        });
+        
+        // Add Enter key support for guess input
+        guessInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !guessButton.disabled) {
+                guessButton.click();
+            }
+        });
+        
+        guessButton.addEventListener('click', function() {
+            const guess = guessInput.value.trim();
+            if (guess) {
+                // Always show a playful misleading clue until the final reveal
+                guessResponse.textContent = getRandomClue();
+                guessResponse.className = 'guess-response incorrect';
+                guessInput.value = '';
+                guessButton.disabled = true;
+            }
+        });
+    }
     
-    guessButton.addEventListener('click', function() {
-        const guess = guessInput.value.trim();
-        if (guess) {
-            // Always show a playful misleading clue until the final reveal
-            guessResponse.textContent = getRandomClue();
-            guessResponse.className = 'guess-response incorrect';
-            guessInput.value = '';
-            guessButton.disabled = true;
+    // Game buttons
+    gameUnlockTimes.forEach(game => {
+        const gameBtn = document.getElementById(`game${game.id}Btn`);
+        if (gameBtn) {
+            gameBtn.addEventListener('click', function() {
+                if (!this.disabled) {
+                    window.location.href = game.gameUrl;
+                }
+            });
         }
     });
     
@@ -521,23 +377,25 @@ function showPromposalButton() {
     // Enable guess input when promposal is revealed
     const guessInput = document.getElementById('guessInput');
     const guessButton = document.getElementById('guessButton');
-    guessInput.disabled = false;
-    guessButton.disabled = false;
-    
-    // Update guess functionality for final reveal
-    guessButton.addEventListener('click', function() {
-        const guess = guessInput.value.trim().toLowerCase();
-        const guessResponse = document.getElementById('guessResponse');
+    if (guessInput && guessButton) {
+        guessInput.disabled = false;
+        guessButton.disabled = false;
         
-        if (guess.includes('prom') || guess.includes('promposal') || guess.includes('dance')) {
-            guessResponse.textContent = 'You got it! Click the button above for the full reveal! 🎉';
-            guessResponse.className = 'guess-response correct';
-        } else {
-            // After reveal, still show misleading/random clue on wrong guesses
-            guessResponse.textContent = getRandomClue();
-            guessResponse.className = 'guess-response incorrect';
-        }
-        
-        guessInput.value = '';
-    });
+        // Update guess functionality for final reveal
+        guessButton.addEventListener('click', function() {
+            const guess = guessInput.value.trim().toLowerCase();
+            const guessResponse = document.getElementById('guessResponse');
+            
+            if (guess.includes('prom') || guess.includes('promposal') || guess.includes('dance')) {
+                guessResponse.textContent = 'You got it! Click the button above for the full reveal! 🎉';
+                guessResponse.className = 'guess-response correct';
+            } else {
+                // After reveal, still show misleading/random clue on wrong guesses
+                guessResponse.textContent = getRandomClue();
+                guessResponse.className = 'guess-response incorrect';
+            }
+            
+            guessInput.value = '';
+        });
+    }
 }

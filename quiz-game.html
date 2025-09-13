@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relationship Quiz - Anniversary Countdown</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .quiz-page {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .quiz-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .quiz-title {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        .quiz-subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+        .question {
+            display: none;
+            margin-bottom: 30px;
+        }
+        .question.active {
+            display: block;
+        }
+        .question h3 {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 25px;
+            line-height: 1.4;
+        }
+        .answers {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .answer-btn {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            padding: 15px 25px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+        .answer-btn:hover {
+            background: #e9ecef;
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+        .answer-btn.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        .answer-btn.correct {
+            background: #28a745;
+            color: white;
+            border-color: #28a745;
+        }
+        .answer-btn.incorrect {
+            background: #dc3545;
+            color: white;
+            border-color: #dc3545;
+        }
+        .next-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+        .next-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        .next-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        .congrats-section {
+            display: none;
+            text-align: center;
+        }
+        .congrats-section.show {
+            display: block;
+        }
+        .congrats-title {
+            font-size: 2.5rem;
+            color: #28a745;
+            margin-bottom: 20px;
+        }
+        .passkey-section {
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+        .passkey-title {
+            font-size: 1.3rem;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .passkey-code {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #333;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            letter-spacing: 3px;
+            font-family: monospace;
+        }
+        .passkey-instructions {
+            color: #666;
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+        .back-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .back-btn:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="quiz-page">
+    <div class="quiz-container">
+        <h1 class="quiz-title">
+            <i class="fas fa-heart"></i>
+            Relationship Quiz
+            <i class="fas fa-heart"></i>
+        </h1>
+        <p class="quiz-subtitle">Test your knowledge about our relationship!</p>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        
+        <div id="quizContent">
+            <!-- Questions will be loaded here -->
+        </div>
+        
+        <div class="congrats-section" id="congratsSection">
+            <h2 class="congrats-title">
+                <i class="fas fa-trophy"></i>
+                Amazing! You know us so well!
+                <i class="fas fa-trophy"></i>
+            </h2>
+            <div class="passkey-section">
+                <h3 class="passkey-title">Your Hint Unlock Code:</h3>
+                <div class="passkey-code" id="passkeyCode">QUIZ2024</div>
+                <p class="passkey-instructions">
+                    You might want to hold on to this passcode. Enter it in the main countdown page to unlock your hint!
+                </p>
+            </div>
+            <button class="back-btn" onclick="window.location.href='index.html'">
+                <i class="fas fa-arrow-left"></i> Back to Countdown
+            </button>
+        </div>
+    </div>
+
+    <script src="quiz-data.js"></script>
+    <script>
+        let currentQuestion = 0;
+        let score = 0;
+        let answers = [];
+
+        function initQuiz() {
+            const quizContent = document.getElementById('quizContent');
+            quizContent.innerHTML = quizData.map((question, index) => `
+                <div class="question ${index === 0 ? 'active' : ''}" id="question${index}">
+                    <h3>Question ${index + 1}: ${question.question}</h3>
+                    <div class="answers">
+                        ${question.options.map((option, optionIndex) => 
+                            `<button class="answer-btn" data-question="${index}" data-option="${optionIndex}">${option}</button>`
+                        ).join('')}
+                    </div>
+                </div>
+            `).join('');
+
+            // Add event listeners
+            document.querySelectorAll('.answer-btn').forEach(btn => {
+                btn.addEventListener('click', selectAnswer);
+            });
+        }
+
+        function selectAnswer(e) {
+            const questionIndex = parseInt(e.target.dataset.question);
+            const optionIndex = parseInt(e.target.dataset.option);
+            
+            // Remove previous selection
+            document.querySelectorAll(`[data-question="${questionIndex}"]`).forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            
+            // Select current answer
+            e.target.classList.add('selected');
+            answers[questionIndex] = optionIndex;
+            
+            // Enable next button
+            const nextBtn = document.getElementById('nextBtn');
+            if (nextBtn) {
+                nextBtn.disabled = false;
+            } else {
+                showNextButton();
+            }
+        }
+
+        function showNextButton() {
+            const currentQuestionDiv = document.querySelector('.question.active');
+            const nextBtn = document.createElement('button');
+            nextBtn.className = 'next-btn';
+            nextBtn.textContent = currentQuestion < quizData.length - 1 ? 'Next Question' : 'Finish Quiz';
+            nextBtn.id = 'nextBtn';
+            nextBtn.disabled = true;
+            nextBtn.addEventListener('click', nextQuestion);
+            currentQuestionDiv.appendChild(nextBtn);
+        }
+
+        function nextQuestion() {
+            // Check if answer is correct
+            const questionIndex = currentQuestion;
+            const selectedOption = answers[questionIndex];
+            const isCorrect = selectedOption === quizData[questionIndex].correct;
+            
+            if (isCorrect) {
+                score++;
+            }
+            
+            // Show correct answer
+            const questionDiv = document.getElementById(`question${questionIndex}`);
+            const allButtons = questionDiv.querySelectorAll('.answer-btn');
+            allButtons.forEach((btn, index) => {
+                btn.disabled = true;
+                if (index === quizData[questionIndex].correct) {
+                    btn.classList.add('correct');
+                } else if (index === selectedOption && !isCorrect) {
+                    btn.classList.add('incorrect');
+                }
+            });
+            
+            // Remove next button
+            const nextBtn = document.getElementById('nextBtn');
+            if (nextBtn) {
+                nextBtn.remove();
+            }
+            
+            // Move to next question or finish
+            setTimeout(() => {
+                if (currentQuestion < quizData.length - 1) {
+                    currentQuestion++;
+                    showQuestion(currentQuestion);
+                } else {
+                    finishQuiz();
+                }
+            }, 2000);
+        }
+
+        function showQuestion(index) {
+            // Hide current question
+            document.querySelector('.question.active').classList.remove('active');
+            
+            // Show next question
+            document.getElementById(`question${index}`).classList.add('active');
+            
+            // Update progress
+            updateProgress();
+            
+            // Show next button
+            showNextButton();
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / quizData.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function finishQuiz() {
+            document.getElementById('quizContent').style.display = 'none';
+            document.getElementById('congratsSection').classList.add('show');
+            
+            // Generate passkey based on score
+            const passkey = generatePasskey(score);
+            document.getElementById('passkeyCode').textContent = passkey;
+        }
+
+        function generatePasskey(score) {
+            // Generate a passkey based on score and current date
+            const date = new Date();
+            const dateStr = date.getDate().toString().padStart(2, '0');
+            const monthStr = (date.getMonth() + 1).toString().padStart(2, '0');
+            return `QUIZ${monthStr}${dateStr}${score}`;
+        }
+
+        // Initialize quiz when page loads
+        document.addEventListener('DOMContentLoaded', initQuiz);
+    </script>
+</body>
+</html>
