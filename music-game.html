@@ -232,7 +232,11 @@
             Music Guessing Game
             <i class="fas fa-music"></i>
         </h1>
-        <p class="music-subtitle">Guess the song from 3 seconds of audio! Each play gives you a different 3-second clip.</p>
+        <p class="music-subtitle">Guess the song from 3 seconds of audio! First play is always the beginning, then random clips.</p>
+        <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 10px; padding: 15px; margin: 20px 0; color: #856404;">
+            <i class="fas fa-exclamation-triangle"></i>
+            <strong>Fair Play Notice:</strong> Please don't use Shazam or other music recognition apps. This is about testing your memory of our special songs together! 🎵💕
+        </div>
         
         <div class="progress-bar">
             <div class="progress-fill" id="progressFill"></div>
@@ -271,6 +275,7 @@
         let currentAudio = null;
         let currentStartTime = 0;
         let currentEndTime = 3;
+        let songPlayCounts = {}; // Track how many times each song has been played
 
         function initGame() {
             totalSongs = musicData.length;
@@ -307,9 +312,21 @@
             const guessInput = document.getElementById(`guessInput${songIndex}`);
             const submitBtn = document.getElementById(`submitBtn${songIndex}`);
 
-            // Generate random 3-second segment
+            // Initialize play count for this song if not exists
+            if (!songPlayCounts[songIndex]) {
+                songPlayCounts[songIndex] = 0;
+            }
+            songPlayCounts[songIndex]++;
+
+            // First play is always the beginning (0-3 seconds), then random
             const songDuration = 180; // Assume 3 minutes average, adjust as needed
-            currentStartTime = Math.random() * (songDuration - 3);
+            if (songPlayCounts[songIndex] === 1) {
+                // First play: always start from beginning
+                currentStartTime = 0;
+            } else {
+                // Subsequent plays: random 3-second segment
+                currentStartTime = Math.random() * (songDuration - 3);
+            }
             currentEndTime = currentStartTime + 3;
 
             // Create audio element
