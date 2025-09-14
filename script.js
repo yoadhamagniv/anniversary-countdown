@@ -63,7 +63,7 @@ function getRandomClue() {
 
 // Valid passkeys for unlocking hints
 const validPasskeys = {
-    'QUIZ2024': 'This is a gift you might say no to (hopefully not).',
+    'MUSIC2024': 'This is a gift you might say no to (hopefully not).',
     'MEMORY2024': 'It\'s something you never had before.',
     'HEBREW2024': 'I have to give it to you at night.',
     'CTF2024': 'This gift really packs a punch.'
