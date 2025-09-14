@@ -63,10 +63,10 @@ function getRandomClue() {
 
 // Valid passkeys for unlocking hints
 const validPasskeys = {
-    'MUSIC2024': 'This is a gift you might say no to (hopefully not).',
-    'MEMORY2024': 'It\'s something you never had before.',
-    'HEBREW2024': 'I have to give it to you at night.',
-    'CTF2024': 'This gift really packs a punch.'
+    'MUSIC2025': 'This is a gift you might say no to (hopefully not).',
+    'MEMORY2025': 'It\'s something you never had before.',
+    'HEBREW2025': 'I have to give it to you at night.',
+    'CTF2025': 'This gift really packs a punch.'
 };
 
 // All countdown dates are now loaded from countdown-dates.js
