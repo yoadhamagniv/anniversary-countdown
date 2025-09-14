@@ -62,6 +62,11 @@
             background: #e3f2fd;
             border: 2px solid #667eea;
         }
+        .word-item.solved {
+            opacity: 0.7;
+            background: #d4edda;
+            border: 2px solid #28a745;
+        }
         .scrambled-word {
             font-size: 1.5rem;
             font-weight: 700;
@@ -326,9 +331,9 @@
             
             const scrambledWordsContainer = document.getElementById('scrambledWords');
             scrambledWordsContainer.innerHTML = scrambledWords.map((word, index) => `
-                <div class="word-item ${index === 0 ? 'current' : ''}" data-index="${index}" data-original-index="${word.originalIndex}">
+                <div class="word-item" data-index="${index}" data-original-index="${word.originalIndex}">
                     <div class="scrambled-word">${word.scrambled}</div>
-                    <input type="text" class="hebrew-input" placeholder="Type the word here..." data-index="${index}" ${index !== 0 ? 'disabled' : ''}>
+                    <input type="text" class="hebrew-input" placeholder="Type the word here..." data-index="${index}">
                     <div class="word-status"></div>
                 </div>
             `).join('');
@@ -369,16 +374,12 @@
                 
                 // Mark this word as solved
                 wordItem.dataset.solved = 'true';
+                wordItem.classList.add('solved');
                 
-                // Move to next unsolved word
-                currentWordIndex++;
-                const nextUnsolved = document.querySelector('.word-item:not([data-solved="true"]) .hebrew-input:disabled');
-                if (nextUnsolved) {
-                    nextUnsolved.disabled = false;
-                    nextUnsolved.focus();
-                    nextUnsolved.closest('.word-item').classList.add('current');
-                    wordItem.classList.remove('current');
-                }
+                // Remove current highlighting
+                document.querySelectorAll('.word-item').forEach(item => {
+                    item.classList.remove('current');
+                });
                 
                 updateProgress();
                 updateMessagePreview();
@@ -405,19 +406,32 @@
         }
 
         function updateProgress() {
-            document.getElementById('progressText').textContent = `Word ${currentWordIndex + 1} of ${hebrewLoveMessage.words.length}`;
+            const solvedCount = document.querySelectorAll('[data-solved="true"]').length;
+            document.getElementById('progressText').textContent = `${solvedCount} of ${hebrewLoveMessage.words.length} words solved`;
         }
 
         function updateMessagePreview() {
-            const solvedWords = hebrewLoveMessage.words.slice(0, currentWordIndex);
+            const solvedWords = [];
+            const solvedItems = document.querySelectorAll('[data-solved="true"]');
+            
+            // Collect solved words in their original order
+            solvedItems.forEach(item => {
+                const originalIndex = parseInt(item.dataset.originalIndex);
+                solvedWords[originalIndex] = hebrewLoveMessage.words[originalIndex];
+            });
+            
+            // Filter out undefined values and create the preview
+            const validSolvedWords = solvedWords.filter(word => word !== undefined);
             const messagePreview = document.getElementById('messagePreview');
             const completeMessage = document.getElementById('completeMessage');
             
-            if (solvedWords.length > 0) {
+            if (validSolvedWords.length > 0) {
                 messagePreview.style.display = 'block';
-                completeMessage.innerHTML = solvedWords.map(word => 
+                completeMessage.innerHTML = validSolvedWords.map(word => 
                     `<span class="solved-word">${word}</span>`
                 ).join(' ');
+            } else {
+                messagePreview.style.display = 'none';
             }
         }
 
