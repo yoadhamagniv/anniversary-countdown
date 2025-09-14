@@ -182,28 +182,43 @@ function updateWeeklyCountdown() {
 function updateGameCountdowns() {
     const now = new Date();
     
-    gameUnlockTimes.forEach(game => {
-        const timeLeft = game.unlockTime - now;
-        const days = Math.max(0, Math.floor(timeLeft / (1000 * 60 * 60 * 24)));
-        const hours = Math.max(0, Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
-        const minutes = Math.max(0, Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60)));
-        const seconds = Math.max(0, Math.floor((timeLeft % (1000 * 60)) / 1000));
-        
-        // Update timer display
-        document.getElementById(`game${game.id}Days`).textContent = days;
-        document.getElementById(`game${game.id}Hours`).textContent = hours;
-        document.getElementById(`game${game.id}Minutes`).textContent = minutes;
-        document.getElementById(`game${game.id}Seconds`).textContent = seconds;
-        
-        // Check if game is unlocked
+    gameUnlockTimes.forEach((game, index) => {
         const gameElement = document.getElementById(`game${game.id}`);
         const gameBtn = document.getElementById(`game${game.id}Btn`);
         
-        if (timeLeft <= 0) {
-            // Game is unlocked
-            gameElement.classList.add('unlocked');
-            gameBtn.disabled = false;
-            gameBtn.textContent = `Play Game ${game.id}`;
+        // Check if previous game is unlocked (for games 2, 3, 4)
+        let shouldShow = true;
+        if (game.id > 1) {
+            const previousGame = gameUnlockTimes[index - 1];
+            const previousTimeLeft = previousGame.unlockTime - now;
+            shouldShow = previousTimeLeft <= 0; // Show only if previous game is unlocked
+        }
+        
+        if (shouldShow) {
+            // Show this game
+            gameElement.style.display = 'block';
+            
+            const timeLeft = game.unlockTime - now;
+            const days = Math.max(0, Math.floor(timeLeft / (1000 * 60 * 60 * 24)));
+            const hours = Math.max(0, Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
+            const minutes = Math.max(0, Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60)));
+            const seconds = Math.max(0, Math.floor((timeLeft % (1000 * 60)) / 1000));
+            
+            // Update timer display
+            document.getElementById(`game${game.id}Days`).textContent = days;
+            document.getElementById(`game${game.id}Hours`).textContent = hours;
+            document.getElementById(`game${game.id}Minutes`).textContent = minutes;
+            document.getElementById(`game${game.id}Seconds`).textContent = seconds;
+            
+            if (timeLeft <= 0) {
+                // Game is unlocked
+                gameElement.classList.add('unlocked');
+                gameBtn.disabled = false;
+                gameBtn.textContent = `Play Game ${game.id}`;
+            }
+        } else {
+            // Hide this game until previous one is unlocked
+            gameElement.style.display = 'none';
         }
     });
 }
