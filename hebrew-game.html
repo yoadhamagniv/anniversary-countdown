@@ -462,19 +462,8 @@
             document.getElementById('messagePreview').style.display = 'none';
             document.getElementById('congratsSection').classList.add('show');
             
-            // Generate passkey based on completion time
-            const passkey = generatePasskey();
-            document.getElementById('passkeyCode').textContent = passkey;
-        }
-
-        function generatePasskey() {
-            // Generate a passkey based on completion time and current date
-            const date = new Date();
-            const dateStr = date.getDate().toString().padStart(2, '0');
-            const monthStr = (date.getMonth() + 1).toString().padStart(2, '0');
-            const completionTime = Math.floor((Date.now() - startTime) / 1000);
-            const timeCode = Math.min(99, Math.floor(completionTime / 10));
-            return `HEB${monthStr}${dateStr}${timeCode}`;
+            // Use fixed passkey
+            document.getElementById('passkeyCode').textContent = 'HEBREW2024';
         }
 
         // Initialize game when page loads
