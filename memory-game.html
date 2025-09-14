@@ -36,26 +36,42 @@
             margin-bottom: 30px;
             font-size: 1.1rem;
         }
-        .memory-grid {
+        .stats {
             display: flex;
-            flex-wrap: wrap;
             justify-content: center;
-            gap: 6px;
-            max-width: 330px;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        #memoryGrid {
+            display: grid;
+            grid-template-columns: repeat(5, 60px);
+            gap: 8px;
+            justify-content: center;
             margin: 0 auto 30px;
         }
         .memory-card {
             width: 60px;
             height: 60px;
             background: #f8f9fa;
-            border: 1px solid #e9ecef;
-            border-radius: 6px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
             transform-style: preserve-3d;
-            flex-shrink: 0;
         }
         .memory-card:hover {
             border-color: #667eea;
@@ -78,7 +94,7 @@
             background-position: center;
             background-repeat: no-repeat;
             background-color: white;
-            font-size: 0.8rem;
+            font-size: 1.2rem;
             color: #667eea;
         }
         .memory-card .card-front {
@@ -88,7 +104,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 5px;
+            border-radius: 6px;
             background-color: white;
         }
         .memory-card .card-front .placeholder {
@@ -98,9 +114,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1rem;
+            font-size: 1.5rem;
             color: #667eea;
-            border-radius: 5px;
+            border-radius: 6px;
         }
         .memory-card.flipped .card-back {
             transform: rotateY(180deg);
@@ -113,41 +129,51 @@
             box-shadow: 0 0 20px rgba(40, 167, 69, 0.3);
             transform: scale(1.05);
         }
-        .memory-messages {
-            margin-top: 20px;
-        }
-        .completed-memory {
-            background: linear-gradient(135deg, #ff9a9e, #fecfef);
-            border-radius: 15px;
-            padding: 20px;
-            margin: 15px 0;
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
             opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.5s ease;
+            visibility: hidden;
+            transition: all 0.3s ease;
         }
-        .completed-memory.show {
+        .popup-overlay.show {
             opacity: 1;
-            transform: translateY(0);
+            visibility: visible;
         }
-        .completed-image {
+        .popup-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
             text-align: center;
-            margin-bottom: 15px;
+            max-width: 400px;
+            margin: 20px;
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
         }
-        .completed-image img {
-            max-width: 250px;
-            max-height: 180px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        .popup-overlay.show .popup-content {
+            transform: scale(1);
         }
-        .memory-text h5 {
+        .popup-image {
+            margin-bottom: 20px;
+        }
+        .popup-image img {
+            max-width: 300px;
+            max-height: 200px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .popup-text {
+            font-size: 1.2rem;
             color: #333;
-            margin-bottom: 10px;
-            font-size: 1.3rem;
-        }
-        .memory-text p {
-            color: #666;
-            font-style: italic;
-            line-height: 1.5;
+            font-weight: 600;
         }
         .congrats-section {
             display: none;
@@ -202,26 +228,6 @@
             background: #5a6268;
             transform: translateY(-2px);
         }
-        .stats {
-            display: flex;
-            justify-content: space-around;
-            margin: 20px 0;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 10px;
-        }
-        .stat-item {
-            text-align: center;
-        }
-        .stat-number {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #667eea;
-        }
-        .stat-label {
-            font-size: 0.9rem;
-            color: #666;
-        }
     </style>
 </head>
 <body class="memory-page">
@@ -248,7 +254,12 @@
             <!-- Memory cards will be loaded here -->
         </div>
         
-        <div class="memory-messages" id="memoryMessages"></div>
+        <div class="popup-overlay" id="popupOverlay">
+            <div class="popup-content">
+                <div class="popup-image" id="popupImage"></div>
+                <div class="popup-text" id="popupText"></div>
+            </div>
+        </div>
         
         <div class="congrats-section" id="congratsSection">
             <h2 class="congrats-title">
@@ -301,7 +312,7 @@
             // Add click listeners
             document.querySelectorAll('.memory-card').forEach(card => {
                 card.addEventListener('click', function() {
-                    if (flippedCards.length < 2 && !this.classList.contains('flipped') && !this.classList.contains('matched')) {
+                    if (flippedCards.length < 2 && !this.classList.contains('flipped')) {
                         this.classList.add('flipped');
                         flippedCards.push({ 
                             element: this, 
@@ -311,7 +322,7 @@
                         
                         if (flippedCards.length === 2) {
                             movesCount++;
-                            updateStats();
+                            document.getElementById('movesCount').textContent = movesCount;
                             setTimeout(checkMatch, 1500);
                         }
                     }
@@ -327,6 +338,7 @@
                 card1.element.classList.add('matched');
                 card2.element.classList.add('matched');
                 matchedPairs++;
+                document.getElementById('matchesFound').textContent = matchedPairs;
                 
                 const pairId = card1.pairId;
                 if (!completedImages.has(pairId)) {
@@ -334,10 +346,10 @@
                     showCompletedImage(pairId);
                 }
                 
-                updateStats();
-                
                 if (matchedPairs === memoryMatchData.length) {
-                    setTimeout(() => finishGame(), 2000);
+                    setTimeout(() => {
+                        document.getElementById('congratsSection').classList.add('show');
+                    }, 2000);
                 }
             } else {
                 // No match
@@ -350,51 +362,24 @@
 
         function showCompletedImage(pairId) {
             const imageData = memoryMatchData.find(item => item.id == pairId);
-            const messagesContainer = document.getElementById('memoryMessages');
+            const popupOverlay = document.getElementById('popupOverlay');
+            const popupImage = document.getElementById('popupImage');
+            const popupText = document.getElementById('popupText');
             
-            const messageDiv = document.createElement('div');
-            messageDiv.className = 'completed-memory';
-            messageDiv.innerHTML = `
-                <div class="completed-image">
-                    <img src="${imageData.full}" alt="${imageData.description}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                    <div class="placeholder" style="display:none;">💕</div>
-                </div>
-                <div class="memory-text">
-                    <h5>${imageData.description}</h5>
-                    <p>${imageData.loveMessage}</p>
-                </div>
+            // Set popup content
+            popupImage.innerHTML = `
+                <img src="${imageData.full}" alt="${imageData.description}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <div class="placeholder" style="display:none;">💕</div>
             `;
+            popupText.textContent = imageData.description;
             
-            messagesContainer.appendChild(messageDiv);
+            // Show popup
+            popupOverlay.classList.add('show');
             
-            // Animate the completion
+            // Auto-hide popup after 3 seconds
             setTimeout(() => {
-                messageDiv.classList.add('show');
-            }, 100);
-        }
-
-        function updateStats() {
-            document.getElementById('matchesFound').textContent = matchedPairs;
-            document.getElementById('movesCount').textContent = movesCount;
-        }
-
-        function finishGame() {
-            document.getElementById('memoryGrid').style.display = 'none';
-            document.getElementById('memoryMessages').style.display = 'none';
-            document.getElementById('congratsSection').classList.add('show');
-            
-            // Generate passkey based on performance
-            const passkey = generatePasskey();
-            document.getElementById('passkeyCode').textContent = passkey;
-        }
-
-        function generatePasskey() {
-            // Generate a passkey based on moves and current date
-            const date = new Date();
-            const dateStr = date.getDate().toString().padStart(2, '0');
-            const monthStr = (date.getMonth() + 1).toString().padStart(2, '0');
-            const efficiency = Math.max(1, Math.floor((memoryMatchData.length * 2) / movesCount));
-            return `MEM${monthStr}${dateStr}${efficiency}`;
+                popupOverlay.classList.remove('show');
+            }, 3000);
         }
 
         // Initialize game when page loads
