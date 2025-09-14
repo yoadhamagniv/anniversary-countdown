@@ -413,9 +413,13 @@
                 const albumArt = document.getElementById(`albumArt${songIndex}`);
                 albumArt.innerHTML = `<img src="${song.albumArt}" alt="${song.title} album cover" onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\\'fas fa-music album-placeholder\\'></i>'">`;
                 
-                // Disable input and button
+                // Disable input, button, and play button
                 guessInput.disabled = true;
                 submitBtn.disabled = true;
+                const playBtn = document.getElementById(`playBtn${songIndex}`);
+                playBtn.disabled = true;
+                playBtn.style.opacity = '0.5';
+                playBtn.style.cursor = 'not-allowed';
                 
                 correctAnswers++;
                 updateProgress();

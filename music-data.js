@@ -4,63 +4,63 @@
 
 const musicData = [
     {
-        title: "Song 1",
-        audioFile: "audio/song1.mp3",
-        artist: "Artist 1",
+        title: "Walk With Me",
+        audioFile: "audio/Bella Thorne - Walk With Me (Charlie's Song) [Lyrics Video] [from Midnight Sun Soundtrack].mp3",
+        artist: "Bella Thorne",
         albumArt: "audio/album1.jpg"
     },
     {
-        title: "Song 2", 
-        audioFile: "audio/song2.mp3",
-        artist: "Artist 2",
+        title: "Walk Over me", 
+        audioFile: "audio/Dirtie Blonde - Walk Over me (with lyrics).mp3",
+        artist: "Dirtie Blonde",
         albumArt: "audio/album2.jpg"
     },
     {
-        title: "Song 3",
-        audioFile: "audio/song3.mp3", 
-        artist: "Artist 3",
+        title: "Home",
+        audioFile: "audio/Edward Sharpe & The Magnetic Zeros - Home (Official Video).mp3", 
+        artist: "Edward Sharpe & The Magnetic Zeros",
         albumArt: "audio/album3.jpg"
     },
     {
-        title: "Song 4",
-        audioFile: "audio/song4.mp3",
-        artist: "Artist 4",
+        title: "Constellations",
+        audioFile: "audio/Jade LeMac - Constellations (Lyrics).mp3",
+        artist: "Jade LeMac",
         albumArt: "audio/album4.jpg"
     },
     {
-        title: "Song 5",
-        audioFile: "audio/song5.mp3",
-        artist: "Artist 5",
+        title: "A Year Without Rain",
+        audioFile: "audio/Selena Gomez - A Year Without Rain ( Audio Full Version ).mp3",
+        artist: "Selena Gomez",
         albumArt: "audio/album5.jpg"
     },
     {
-        title: "Song 6",
-        audioFile: "audio/song6.mp3",
-        artist: "Artist 6",
+        title: "Undressed",
+        audioFile: "audio/sombr - undressed (official lyric video).mp3",
+        artist: "sombr",
         albumArt: "audio/album6.jpg"
     },
     {
-        title: "Song 7",
-        audioFile: "audio/song7.mp3",
-        artist: "Artist 7",
+        title: "נהדרת",
+        audioFile: "audio/SpotiDownloader.com - נהדרת - יציאת חירום.mp3",
+        artist: "יציאת חירום",
         albumArt: "audio/album7.jpg"
     },
     {
-        title: "Song 8",
-        audioFile: "audio/song8.mp3",
-        artist: "Artist 8",
+        title: "Who You Share it With",
+        audioFile: "audio/Who You Share it With.mp3",
+        artist: "Layup",
         albumArt: "audio/album8.jpg"
     },
     {
-        title: "Song 9",
-        audioFile: "audio/song9.mp3",
-        artist: "Artist 9",
+        title: "אמן אמן אמן",
+        audioFile: "audio/טונה - אמן אמן אמן.mp3",
+        artist: "טונה",
         albumArt: "audio/album9.jpg"
     },
     {
-        title: "Song 10",
-        audioFile: "audio/song10.mp3",
-        artist: "Artist 10",
+        title: "שני משוגעים",
+        audioFile: "audio/עומר אדם - שני משוגעים.mp3",
+        artist: "עומר אדם",
         albumArt: "audio/album10.jpg"
     }
 ];
