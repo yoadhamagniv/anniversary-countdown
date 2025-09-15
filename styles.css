@@ -1048,7 +1048,9 @@ body {
 /* Responsive Design */
 @media (max-width: 768px) {
     .container {
-        padding: 15px;
+        padding: 10px;
+        max-width: 100%;
+        margin: 0;
     }
     
     .main-title {

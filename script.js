@@ -162,7 +162,15 @@ function updateWeeklyCountdown() {
         }
     }
     
+    // Hide weekly countdown if no more Shabbat times or if all games are unlocked
     if (!nextShabbat) {
+        document.getElementById('weeklyCountdown').style.display = 'none';
+        return;
+    }
+    
+    // Check if all games are unlocked (last game is CTF which unlocks on Oct 11th)
+    const lastGameUnlockTime = new Date('2025-10-11T19:45:00-04:00');
+    if (now >= lastGameUnlockTime) {
         document.getElementById('weeklyCountdown').style.display = 'none';
         return;
     }

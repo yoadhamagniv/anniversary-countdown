@@ -251,6 +251,47 @@
         .song-content {
             flex: 1;
         }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .music-page {
+                padding: 10px;
+            }
+            .music-container {
+                padding: 20px;
+                max-width: 100%;
+                margin: 0;
+            }
+            .songs-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            .song-card {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            .audio-controls {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .guess-input {
+                max-width: 100%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .music-container {
+                padding: 15px;
+            }
+            .music-title {
+                font-size: 2rem;
+            }
+            .album-artwork {
+                width: 60px;
+                height: 60px;
+            }
+        }
     </style>
 </head>
 <body class="music-page">

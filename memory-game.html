@@ -228,6 +228,43 @@
             background: #5a6268;
             transform: translateY(-2px);
         }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .memory-page {
+                padding: 10px;
+            }
+            .memory-container {
+                padding: 20px;
+                max-width: 100%;
+                margin: 0;
+            }
+            #memoryGrid {
+                grid-template-columns: repeat(4, 70px);
+                gap: 10px;
+            }
+            .memory-card {
+                width: 70px;
+                height: 70px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .memory-container {
+                padding: 15px;
+            }
+            .memory-title {
+                font-size: 2rem;
+            }
+            #memoryGrid {
+                grid-template-columns: repeat(4, 60px);
+                gap: 8px;
+            }
+            .memory-card {
+                width: 60px;
+                height: 60px;
+            }
+        }
     </style>
 </head>
 <body class="memory-page">

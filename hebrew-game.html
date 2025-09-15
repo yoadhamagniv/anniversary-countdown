@@ -267,6 +267,42 @@
             25% { transform: translateX(-5px); }
             75% { transform: translateX(5px); }
         }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hebrew-page {
+                padding: 10px;
+            }
+            .hebrew-container {
+                padding: 20px;
+                max-width: 100%;
+                margin: 0;
+            }
+            .scrambled-words {
+                gap: 10px;
+            }
+            .word-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+            .hebrew-input {
+                max-width: 100%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hebrew-container {
+                padding: 15px;
+            }
+            .hebrew-title {
+                font-size: 2rem;
+            }
+            .scrambled-word {
+                font-size: 1.2rem;
+                min-width: 100px;
+            }
+        }
     </style>
 </head>
 <body class="hebrew-page">
