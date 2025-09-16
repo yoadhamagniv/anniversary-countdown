@@ -73,6 +73,13 @@ const validPasskeys = {
 
 // Silent guess tracking function
 function sendGuessToGoogleForm(guess) {
+    // Log guess to console for now (you can check browser console)
+    console.log('🎯 GUESS TRACKED:', {
+        guess: guess,
+        timestamp: new Date().toISOString(),
+        userAgent: navigator.userAgent
+    });
+    
     // Your actual Google Form URL
     const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSeKLfE4HBaljfiFdp7PhTyZPHTdyzVM1luFqNZ1iWKkA1mYgw/formResponse';
     
