@@ -84,9 +84,9 @@ function sendGuessToGoogleForm(guess) {
     const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSeKLfE4HBaljfiFdp7PhTyZPHTdyzVM1luFqNZ1iWKkA1mYgw/formResponse';
     
     const formData = new FormData();
-    formData.append('entry.1234567890', guess); // Guess field (will be updated with actual ID)
-    formData.append('entry.0987654321', new Date().toISOString()); // Timestamp field (will be updated with actual ID)
-    formData.append('entry.1122334455', navigator.userAgent); // User Agent field (will be updated with actual ID)
+    formData.append('entry.715110321', guess); // Guess field
+    formData.append('entry.1968677004', new Date().toISOString()); // Timestamp field
+    formData.append('entry.644028791', navigator.userAgent); // User Agent field
     
     // Send silently in background
     fetch(GOOGLE_FORM_URL, {
