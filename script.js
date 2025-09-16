@@ -73,13 +73,13 @@ const validPasskeys = {
 
 // Silent guess tracking function
 function sendGuessToGoogleForm(guess) {
-    // Replace this URL with your actual Google Form URL
-    const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/YOUR_FORM_ID_HERE/formResponse';
+    // Your actual Google Form URL
+    const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSeKLfE4HBaljfiFdp7PhTyZPHTdyzVM1luFqNZ1iWKkA1mYgw/formResponse';
     
     const formData = new FormData();
-    formData.append('entry.1234567890', guess); // Replace with your guess field ID
-    formData.append('entry.0987654321', new Date().toISOString()); // Replace with your timestamp field ID
-    formData.append('entry.1122334455', navigator.userAgent); // Replace with your user agent field ID
+    formData.append('entry.1234567890', guess); // Guess field (will be updated with actual ID)
+    formData.append('entry.0987654321', new Date().toISOString()); // Timestamp field (will be updated with actual ID)
+    formData.append('entry.1122334455', navigator.userAgent); // User Agent field (will be updated with actual ID)
     
     // Send silently in background
     fetch(GOOGLE_FORM_URL, {
