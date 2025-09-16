@@ -71,6 +71,27 @@ const validPasskeys = {
 
 // All countdown dates are now loaded from countdown-dates.js
 
+// Silent guess tracking function
+function sendGuessToGoogleForm(guess) {
+    // Replace this URL with your actual Google Form URL
+    const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/YOUR_FORM_ID_HERE/formResponse';
+    
+    const formData = new FormData();
+    formData.append('entry.1234567890', guess); // Replace with your guess field ID
+    formData.append('entry.0987654321', new Date().toISOString()); // Replace with your timestamp field ID
+    formData.append('entry.1122334455', navigator.userAgent); // Replace with your user agent field ID
+    
+    // Send silently in background
+    fetch(GOOGLE_FORM_URL, {
+        method: 'POST',
+        body: formData,
+        mode: 'no-cors' // This prevents CORS errors
+    }).catch(() => {
+        // Silently fail if there's an error
+        console.log('Guess tracking failed');
+    });
+}
+
 // Simple time validation for GitHub Pages
 let timeValidationEnabled = false; // Disabled for GitHub Pages compatibility
 
@@ -362,6 +383,9 @@ function setupEventListeners() {
         guessButton.addEventListener('click', function() {
             const guess = guessInput.value.trim();
             if (guess) {
+                // Send guess to Google Form silently (invisible to her)
+                sendGuessToGoogleForm(guess);
+                
                 // Always show a playful misleading clue until the final reveal
                 guessResponse.textContent = getRandomClue();
                 guessResponse.className = 'guess-response incorrect';
@@ -425,10 +449,14 @@ function showPromposalButton() {
         
         // Update guess functionality for final reveal
         guessButton.addEventListener('click', function() {
-            const guess = guessInput.value.trim().toLowerCase();
+            const guess = guessInput.value.trim();
             const guessResponse = document.getElementById('guessResponse');
             
-            if (guess.includes('prom') || guess.includes('promposal') || guess.includes('dance')) {
+            // Send guess to Google Form silently (invisible to her)
+            sendGuessToGoogleForm(guess);
+            
+            const guessLower = guess.toLowerCase();
+            if (guessLower.includes('prom') || guessLower.includes('promposal') || guessLower.includes('dance')) {
                 guessResponse.textContent = 'You got it! Click the button above for the full reveal! 🎉';
                 guessResponse.className = 'guess-response correct';
             } else {
