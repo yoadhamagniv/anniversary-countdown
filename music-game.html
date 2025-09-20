@@ -251,6 +251,66 @@
         .song-content {
             flex: 1;
         }
+        .favorite-part-section {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+            border-radius: 10px;
+            text-align: center;
+        }
+        .favorite-part-section.show {
+            display: block;
+        }
+        .favorite-part-title {
+            font-size: 1.1rem;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        .favorite-part-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .favorite-play-btn {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .favorite-play-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .favorite-stop-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .favorite-stop-btn:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+        .favorite-stop-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
         
         /* Mobile Responsive */
         @media (max-width: 768px) {
@@ -345,20 +405,7 @@
         let currentStartTime = 0;
         let currentEndTime = 3;
         let songPlayCounts = {}; // Track how many times each song has been played
-        
-        // Yoad's favorite parts for each song
-        const favoriteParts = {
-            'walk with me': { start: 35, end: 50 },
-            'walk over me': { start: 37, end: 57 },
-            'home': { start: 52, end: 75 },
-            'const': { start: 55, end: 81 },
-            'a year without rain': { start: 46, end: 69 },
-            'undressed': { start: 45, end: 73 },
-            'נהדרת': { start: 65, end: 101 },
-            'who you share it with': { start: 50, end: 76 },
-            'אמן אמן אמן': { start: 157, end: 187 },
-            'שני משוגעים': { start: 32, end: 66 }
-        };
+        let favoriteAudio = null; // Audio for favorite part
 
         function initGame() {
             totalSongs = musicData.length;
@@ -380,18 +427,18 @@
                                 <button class="submit-btn" id="submitBtn${index}" onclick="submitGuess(${index})" disabled>Submit</button>
                             </div>
                         </div>
-                        <div class="favorite-part-section" id="favoritePart${index}" style="display: none; margin: 15px 0; padding: 15px; background: linear-gradient(135deg, #ff9a9e, #fecfef); border-radius: 10px;">
-                            <p style="margin: 0 0 10px 0; font-weight: 600; color: #333;">
-                                <i class="fas fa-heart"></i> Yoad's Favorite Part
-                            </p>
-                            <button class="favorite-play-btn" id="favoritePlayBtn${index}" onclick="playFavoritePart(${index})" style="background: linear-gradient(135deg, #ff6b6b, #ee5a24); color: white; border: none; padding: 10px 20px; border-radius: 20px; cursor: pointer; margin-right: 10px;">
-                                <i class="fas fa-play"></i> Play Favorite Part
-                            </button>
-                            <button class="favorite-stop-btn" id="favoriteStopBtn${index}" onclick="stopFavoritePart()" style="background: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 20px; cursor: pointer;">
-                                <i class="fas fa-stop"></i> Stop
-                            </button>
-                        </div>
                         <div class="feedback" id="feedback${index}"></div>
+                        <div class="favorite-part-section" id="favoritePart${index}">
+                            <div class="favorite-part-title">💕 Yoad's Favorite Part 💕</div>
+                            <div class="favorite-part-controls">
+                                <button class="favorite-play-btn" id="favoritePlayBtn${index}" onclick="playFavoritePart(${index})">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                                <button class="favorite-stop-btn" id="favoriteStopBtn${index}" onclick="stopFavoritePart(${index})" disabled>
+                                    <i class="fas fa-stop"></i> Stop
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             `).join('');
@@ -479,15 +526,6 @@
                 const albumArt = document.getElementById(`albumArt${songIndex}`);
                 albumArt.innerHTML = `<img src="${song.albumArt}" alt="${song.title} album cover" onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\\'fas fa-music album-placeholder\\'></i>'">`;
                 
-                // Show Yoad's favorite part section
-                const favoritePartSection = document.getElementById(`favoritePart${songIndex}`);
-                favoritePartSection.style.display = 'block';
-                
-                // Auto-play favorite part
-                setTimeout(() => {
-                    playFavoritePart(songIndex);
-                }, 1000);
-                
                 // Disable input, button, and play button
                 guessInput.disabled = true;
                 submitBtn.disabled = true;
@@ -495,6 +533,15 @@
                 playBtn.disabled = true;
                 playBtn.style.opacity = '0.5';
                 playBtn.style.cursor = 'not-allowed';
+                
+                // Show favorite part section
+                const favoritePart = document.getElementById(`favoritePart${songIndex}`);
+                favoritePart.classList.add('show');
+                
+                // Auto-play favorite part
+                setTimeout(() => {
+                    playFavoritePart(songIndex);
+                }, 1000);
                 
                 correctAnswers++;
                 updateProgress();
@@ -522,63 +569,50 @@
         }
 
         function playFavoritePart(songIndex) {
+            // Stop current favorite audio if playing
+            if (favoriteAudio) {
+                favoriteAudio.pause();
+                favoriteAudio.currentTime = 0;
+            }
+
             const song = musicData[songIndex];
-            const songTitle = song.title.toLowerCase();
-            const favoritePart = favoriteParts[songTitle];
-            
-            if (!favoritePart) {
-                console.log('No favorite part found for:', songTitle);
-                return;
-            }
-            
-            // Stop any currently playing audio
-            if (currentAudio) {
-                currentAudio.pause();
-                currentAudio.currentTime = 0;
-            }
-            
-            // Create new audio for favorite part
-            currentAudio = new Audio(song.audioFile);
-            currentAudio.currentTime = favoritePart.start;
-            
-            // Update button states
-            const playBtn = document.getElementById(`favoritePlayBtn${songIndex}`);
-            const stopBtn = document.getElementById(`favoriteStopBtn${songIndex}`);
-            playBtn.disabled = true;
-            playBtn.innerHTML = '<i class="fas fa-pause"></i> Playing...';
-            stopBtn.disabled = false;
+            const favoritePlayBtn = document.getElementById(`favoritePlayBtn${songIndex}`);
+            const favoriteStopBtn = document.getElementById(`favoriteStopBtn${songIndex}`);
+
+            // Create audio element for favorite part
+            favoriteAudio = new Audio(song.audioFile);
+            favoriteAudio.currentTime = song.favoritePart.start;
             
             // Play the favorite part
-            currentAudio.play();
+            favoriteAudio.play();
             
-            // Stop after the duration
-            const duration = (favoritePart.end - favoritePart.start) * 1000;
+            // Stop after the favorite part duration
+            const duration = (song.favoritePart.end - song.favoritePart.start) * 1000;
             setTimeout(() => {
-                if (currentAudio) {
-                    currentAudio.pause();
-                    currentAudio.currentTime = 0;
+                if (favoriteAudio) {
+                    favoriteAudio.pause();
+                    favoriteAudio.currentTime = 0;
+                    favoritePlayBtn.innerHTML = '<i class="fas fa-play"></i>';
+                    favoriteStopBtn.disabled = true;
                 }
-                // Reset button states
-                playBtn.disabled = false;
-                playBtn.innerHTML = '<i class="fas fa-play"></i> Play Favorite Part';
-                stopBtn.disabled = true;
             }, duration);
+
+            // Update button states
+            favoritePlayBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            favoriteStopBtn.disabled = false;
         }
-        
-        function stopFavoritePart() {
-            if (currentAudio) {
-                currentAudio.pause();
-                currentAudio.currentTime = 0;
+
+        function stopFavoritePart(songIndex) {
+            if (favoriteAudio) {
+                favoriteAudio.pause();
+                favoriteAudio.currentTime = 0;
             }
             
-            // Reset all favorite part buttons
-            document.querySelectorAll('.favorite-play-btn').forEach(btn => {
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-play"></i> Play Favorite Part';
-            });
-            document.querySelectorAll('.favorite-stop-btn').forEach(btn => {
-                btn.disabled = true;
-            });
+            const favoritePlayBtn = document.getElementById(`favoritePlayBtn${songIndex}`);
+            const favoriteStopBtn = document.getElementById(`favoriteStopBtn${songIndex}`);
+            
+            favoritePlayBtn.innerHTML = '<i class="fas fa-play"></i>';
+            favoriteStopBtn.disabled = true;
         }
 
         function finishGame() {
