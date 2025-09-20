@@ -8,14 +8,14 @@ const musicData = [
         audioFile: "audio/Bella Thorne - Walk With Me (Charlie's Song) [Lyrics Video] [from Midnight Sun Soundtrack].mp3",
         artist: "Bella Thorne",
         albumArt: "audio/album1.jpg",
-        favoritePart: { start: 35, end: 50 }
+        favoritePart: { start: 35, end: 51 }
     },
     {
         title: "Walk Over me", 
         audioFile: "audio/Dirtie Blonde - Walk Over me (with lyrics).mp3",
         artist: "Dirtie Blonde",
         albumArt: "audio/album2.jpg",
-        favoritePart: { start: 37, end: 57 }
+        favoritePart: { start: 37, end: 58 }
     },
     {
         title: "Home",
@@ -29,7 +29,7 @@ const musicData = [
         audioFile: "audio/Jade LeMac - Constellations (Lyrics).mp3",
         artist: "Jade LeMac",
         albumArt: "audio/album4.jpg",
-        favoritePart: { start: 55, end: 81 }
+        favoritePart: { start: 55, end: 83 }
     },
     {
         title: "A Year Without Rain",
@@ -43,7 +43,7 @@ const musicData = [
         audioFile: "audio/sombr - undressed (official lyric video).mp3",
         artist: "sombr",
         albumArt: "audio/album6.jpg",
-        favoritePart: { start: 45, end: 73 }
+        favoritePart: { start: 49, end: 73 }
     },
     {
         title: "נהדרת",
@@ -57,7 +57,7 @@ const musicData = [
         audioFile: "audio/Who You Share it With.mp3",
         artist: "Layup",
         albumArt: "audio/album8.jpg",
-        favoritePart: { start: 50, end: 76 }
+        favoritePart: { start: 48, end: 76 }
     },
     {
         title: "אמן אמן אמן",
