@@ -345,6 +345,20 @@
         let currentStartTime = 0;
         let currentEndTime = 3;
         let songPlayCounts = {}; // Track how many times each song has been played
+        
+        // Yoad's favorite parts for each song
+        const favoriteParts = {
+            'walk with me': { start: 35, end: 50 },
+            'walk over me': { start: 37, end: 57 },
+            'home': { start: 52, end: 75 },
+            'const': { start: 55, end: 81 },
+            'a year without rain': { start: 46, end: 69 },
+            'undressed': { start: 45, end: 73 },
+            'נהדרת': { start: 65, end: 101 },
+            'who you share it with': { start: 50, end: 76 },
+            'אמן אמן אמן': { start: 157, end: 187 },
+            'שני משוגעים': { start: 32, end: 66 }
+        };
 
         function initGame() {
             totalSongs = musicData.length;
@@ -365,6 +379,17 @@
                                 <input type="text" class="guess-input" id="guessInput${index}" placeholder="Enter song name..." disabled>
                                 <button class="submit-btn" id="submitBtn${index}" onclick="submitGuess(${index})" disabled>Submit</button>
                             </div>
+                        </div>
+                        <div class="favorite-part-section" id="favoritePart${index}" style="display: none; margin: 15px 0; padding: 15px; background: linear-gradient(135deg, #ff9a9e, #fecfef); border-radius: 10px;">
+                            <p style="margin: 0 0 10px 0; font-weight: 600; color: #333;">
+                                <i class="fas fa-heart"></i> Yoad's Favorite Part
+                            </p>
+                            <button class="favorite-play-btn" id="favoritePlayBtn${index}" onclick="playFavoritePart(${index})" style="background: linear-gradient(135deg, #ff6b6b, #ee5a24); color: white; border: none; padding: 10px 20px; border-radius: 20px; cursor: pointer; margin-right: 10px;">
+                                <i class="fas fa-play"></i> Play Favorite Part
+                            </button>
+                            <button class="favorite-stop-btn" id="favoriteStopBtn${index}" onclick="stopFavoritePart()" style="background: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 20px; cursor: pointer;">
+                                <i class="fas fa-stop"></i> Stop
+                            </button>
                         </div>
                         <div class="feedback" id="feedback${index}"></div>
                     </div>
@@ -454,6 +479,15 @@
                 const albumArt = document.getElementById(`albumArt${songIndex}`);
                 albumArt.innerHTML = `<img src="${song.albumArt}" alt="${song.title} album cover" onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\\'fas fa-music album-placeholder\\'></i>'">`;
                 
+                // Show Yoad's favorite part section
+                const favoritePartSection = document.getElementById(`favoritePart${songIndex}`);
+                favoritePartSection.style.display = 'block';
+                
+                // Auto-play favorite part
+                setTimeout(() => {
+                    playFavoritePart(songIndex);
+                }, 1000);
+                
                 // Disable input, button, and play button
                 guessInput.disabled = true;
                 submitBtn.disabled = true;
@@ -485,6 +519,66 @@
         function updateProgress() {
             const progress = (correctAnswers / totalSongs) * 100;
             document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function playFavoritePart(songIndex) {
+            const song = musicData[songIndex];
+            const songTitle = song.title.toLowerCase();
+            const favoritePart = favoriteParts[songTitle];
+            
+            if (!favoritePart) {
+                console.log('No favorite part found for:', songTitle);
+                return;
+            }
+            
+            // Stop any currently playing audio
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+            }
+            
+            // Create new audio for favorite part
+            currentAudio = new Audio(song.audioFile);
+            currentAudio.currentTime = favoritePart.start;
+            
+            // Update button states
+            const playBtn = document.getElementById(`favoritePlayBtn${songIndex}`);
+            const stopBtn = document.getElementById(`favoriteStopBtn${songIndex}`);
+            playBtn.disabled = true;
+            playBtn.innerHTML = '<i class="fas fa-pause"></i> Playing...';
+            stopBtn.disabled = false;
+            
+            // Play the favorite part
+            currentAudio.play();
+            
+            // Stop after the duration
+            const duration = (favoritePart.end - favoritePart.start) * 1000;
+            setTimeout(() => {
+                if (currentAudio) {
+                    currentAudio.pause();
+                    currentAudio.currentTime = 0;
+                }
+                // Reset button states
+                playBtn.disabled = false;
+                playBtn.innerHTML = '<i class="fas fa-play"></i> Play Favorite Part';
+                stopBtn.disabled = true;
+            }, duration);
+        }
+        
+        function stopFavoritePart() {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+            }
+            
+            // Reset all favorite part buttons
+            document.querySelectorAll('.favorite-play-btn').forEach(btn => {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-play"></i> Play Favorite Part';
+            });
+            document.querySelectorAll('.favorite-stop-btn').forEach(btn => {
+                btn.disabled = true;
+            });
         }
 
         function finishGame() {
