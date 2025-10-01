@@ -466,6 +466,9 @@
         <source src="audio/rotanika-voice.mp3" type="audio/mpeg">
         <source src="audio/rotanika-voice.ogg" type="audio/ogg">
     </audio>
+    <audio id="victoryAudio" preload="auto" style="display:none;">
+        <source src="audio/victory.mp3" type="audio/mpeg">
+    </audio>
 
     <script>
         // Evil welcome message
@@ -769,6 +772,12 @@
 
         // New staged, interactive ending sequence
         function showPostExplosionSequence() {
+            // Play victory sound once explosion ends
+            try {
+                const v = document.getElementById('victoryAudio');
+                if (v) { v.currentTime = 0; v.volume = 1.0; v.play().catch(()=>{}); }
+            } catch(e) {}
+
             const container = document.querySelector('.genie-container');
             container.innerHTML = `
                 <h1 class="genie-title">🕯️ The Dust Settles...</h1>
