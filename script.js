@@ -1,3 +1,14 @@
+window.addEventListener('load', () => {
+    const wipedAlready = localStorage.getItem('storageWipedOnce');
+  
+    if (!wipedAlready) {
+      localStorage.clear();  // wipe all saved hints/progress
+      localStorage.setItem('storageWipedOnce', 'true');
+      console.log('✅ Local storage wiped for all visitors — this will not repeat.');
+    }
+  });
+
+
 // Global variables
 let currentGame = null;
 let hints = [];
