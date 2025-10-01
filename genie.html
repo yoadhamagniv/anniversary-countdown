@@ -103,6 +103,27 @@
             100% { transform: scale(0) rotate(720deg); opacity: 0; filter: brightness(0%); }
         }
 
+        /* Smoke overlay during explosion */
+        .smoke-overlay {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .smoke-puff {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, rgba(200,200,200,0.6) 0%, rgba(180,180,180,0.4) 60%, rgba(160,160,160,0) 70%);
+            border-radius: 50%;
+            filter: blur(2px);
+            animation: smokeRise 2.2s ease-out forwards;
+        }
+        @keyframes smokeRise {
+            0% { transform: translateY(0) scale(1); opacity: 0.6; }
+            100% { transform: translateY(-140px) scale(1.7); opacity: 0; }
+        }
+
         .rotanika-image img {
             width: 100%;
             height: 100%;
@@ -657,8 +678,34 @@
             rotanikaImg.src = 'images/rotanika-agony.jpg';
             rotanikaImg.parentElement.classList.add('rotanika-exploding');
 
-            // Play explosion sound (Web Audio API - no external file needed)
-            try { playExplosionSound(); } catch (e) { console.log('Explosion sound failed', e); }
+            // Add smoke overlay
+            const container = document.querySelector('.genie-container');
+            let smoke = document.createElement('div');
+            smoke.className = 'smoke-overlay';
+            container.appendChild(smoke);
+            // spawn puffs periodically during 5s explosion
+            const puffInterval = setInterval(() => {
+                for (let i = 0; i < 6; i++) {
+                    const puff = document.createElement('div');
+                    puff.className = 'smoke-puff';
+                    const x = Math.random() * (container.clientWidth - 40) + 20;
+                    const y = container.clientHeight/2 + (Math.random() * 40 - 20);
+                    puff.style.left = x + 'px';
+                    puff.style.top = y + 'px';
+                    puff.style.animationDuration = (1.8 + Math.random()*0.8) + 's';
+                    smoke.appendChild(puff);
+                    setTimeout(()=>puff.remove(), 2500);
+                }
+            }, 300);
+
+            // Play provided explosion sound file for the duration
+            try {
+                const sfx = new Audio('audio/Explosion Sound Effect [FREE DOWNLOAD].mp3');
+                sfx.currentTime = 0;
+                sfx.volume = 1.0;
+                sfx.play().catch(()=>{});
+                setTimeout(()=>{ try { sfx.pause(); sfx.currentTime = 0; } catch(e){} }, 5000);
+            } catch (e) { console.log('Explosion sfx error', e); }
 
             // Show final defeat message
             speechText.textContent = "NOOOOOO! How did you discover my weakness?! The power of FALAFEL compels me! I am DEFEATED! *EXPLODES*";
@@ -666,6 +713,8 @@
 
             // After explosion, show staged ending sequence
             setTimeout(() => {
+                clearInterval(puffInterval);
+                if (smoke && smoke.parentNode) smoke.parentNode.removeChild(smoke);
                 showPostExplosionSequence();
             }, 6000);
         }
@@ -762,14 +811,22 @@
                         </div>
                     `;
 
-                    setTimeout(() => {
-                        stage.innerHTML = `
-                            <div style="margin:12px 0 18px; color:#ffcccc;">The note reveals a code:</div>
-                            <div class="reveal pulse">CTF2025</div>
-                            <p style="color:#ffcccc; margin-top:16px;">Return to the main page and enter this code to unlock your hint.</p>
-                            <button onclick="window.location.href='index.html'" class="treasure-btn" style="margin-top:12px; background:#667eea; color:#fff; border:none; padding:10px 20px; border-radius:25px;">Back to Countdown</button>
-                        `;
-                    }, 1500);
+                    stage.innerHTML += `
+                        <div style="margin-top:16px;">
+                            <button id="revealKeyBtn" class="treasure-btn" style="background: linear-gradient(135deg, #ff6b6b, #ee5a24); color:#fff; border:none; padding:12px 22px; border-radius:25px; font-weight:600; cursor:pointer;">Reveal the key</button>
+                        </div>
+                    `;
+                    const revealBtn = document.getElementById('revealKeyBtn');
+                    if (revealBtn) {
+                        revealBtn.onclick = () => {
+                            stage.innerHTML = `
+                                <div style="margin:12px 0 18px; color:#ffcccc;">The note reveals a code:</div>
+                                <div class="reveal pulse">CTF2025</div>
+                                <p style="color:#ffcccc; margin-top:16px;">Return to the main page and enter this code to unlock your hint.</p>
+                                <button onclick=\"window.location.href='index.html'\" class=\"treasure-btn\" style=\"margin-top:12px; background:#667eea; color:#fff; border:none; padding:10px 20px; border-radius:25px;\">Back to Countdown</button>
+                            `;
+                        };
+                    }
                 };
             };
         }
