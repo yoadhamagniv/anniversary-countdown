@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(for:*)",
+      "Bash(do echo \"=== $file ===\")",
+      "Bash(grep:*)",
+      "Bash(done)",
+      "Bash(do if ! grep -q \"character-speaking\" \"$file\")",
+      "Bash(then echo \"$file needs speaking effects\")",
+      "Bash(fi)",
+      "Bash(do if [ -f \"$file\" ])",
+      "Bash(then if ! grep -q \"character-speaking\" \"$file\")",
+      "Bash(then echo \"$file needs updates\")",
+      "Bash(else echo \"$file does not exist\")",
+      "Bash(node:*)",
+      "Bash(do echo \"Creating $file.html...\")"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

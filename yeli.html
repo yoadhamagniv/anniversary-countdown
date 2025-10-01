@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yeli - Trapped Character</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .character-page {
+            background: linear-gradient(135deg, #fd79a8 0%, #fdcb6e 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            font-family: 'Poppins', sans-serif;
+        }
+        .character-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        .character-header {
+            margin-bottom: 30px;
+        }
+        .character-title {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        .character-subtitle {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+        .character-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, #fd79a8, #fdcb6e);
+            border: 5px solid #fff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        .character-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .story-section {
+            margin: 30px 0;
+        }
+        .story-text-box {
+            background: #f8f9fa;
+            border: 2px solid #fd79a8;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-height: 120px;
+            position: relative;
+        }
+        .story-text-box:hover {
+            border-color: #fdcb6e;
+            box-shadow: 0 5px 15px rgba(253, 121, 168, 0.2);
+            transform: translateY(-2px);
+        }
+        .story-text {
+            font-size: 1.2rem;
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        .continue-hint {
+            font-size: 0.9rem;
+            color: #fd79a8;
+            text-align: center;
+            font-style: italic;
+            opacity: 0.8;
+        }
+        .story-finished {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            border-color: #28a745;
+            cursor: default;
+        }
+        .story-finished .story-text {
+            color: white;
+        }
+        .story-finished .continue-hint {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        .home-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: #fd79a8;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .home-button:hover {
+            background: #fdcb6e;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="character-page">
+        <div class="character-container">
+            <a href="index.html" class="home-button">
+                <i class="fas fa-home"></i> Home
+            </a>
+            <div class="character-header">
+                <div class="character-avatar">
+                    <img src="images/yeli.jpg" alt="Yeli">
+                </div>
+                <h1 class="character-title">Yeli</h1>
+                <p class="character-subtitle">Friend - Trapped in the Lamp</p>
+            </div>
+            <div class="story-section">
+                <div class="story-text-box" id="storyTextBox" onclick="nextSentence()">
+                    <div class="story-text" id="storyText">
+                        <!-- Story text will be populated here -->
+                    </div>
+                    <div class="continue-hint" id="continueHint">
+                        👆 Click to continue
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const storyLines = [
+            "Jules! You found me! I was getting so worried!",
+            "That evil genie just appeared and grabbed me from my house!",
+            "I couldn't believe my eyes when I saw him!",
+            "This whole experience feels like a bad dream!",
+            "But I've been staying strong and trying not to panic!",
+            "I know there are lots of other people trapped here too!",
+            "You're going to find a way to save everyone, right?",
+            "I have complete faith in you, Jules!"
+        ];
+        let currentLineIndex = 0;
+        let isStoryFinished = false;
+        window.addEventListener('load', function() {
+            startStory();
+        });
+        function startStory() {
+            showCurrentLine();
+        }
+        function showCurrentLine() {
+            if (currentLineIndex < storyLines.length) {
+                const storyText = document.getElementById('storyText');
+                const continueHint = document.getElementById('continueHint');
+                storyText.textContent = storyLines[currentLineIndex];
+                if (currentLineIndex === storyLines.length - 1) {
+                    continueHint.textContent = "👆 Story complete";
+                } else {
+                    continueHint.textContent = "👆 Click to continue";
+                }
+            }
+        }
+        function nextSentence() {
+            if (currentLineIndex < storyLines.length - 1) {
+                currentLineIndex++;
+                showCurrentLine();
+            } else if (!isStoryFinished) {
+                finishStory();
+            }
+        }
+        function finishStory() {
+            isStoryFinished = true;
+            const textBox = document.getElementById('storyTextBox');
+            textBox.classList.add('story-finished');
+            textBox.onclick = null;
+            document.getElementById('continueHint').style.display = 'none';
+            document.getElementById('storyText').textContent = "Yeli smiles at you with unwavering trust and optimism...";
+        }
+    </script>
+</body>
+</html>

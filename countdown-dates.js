@@ -36,7 +36,7 @@ const gameUnlockTimes = [
     {
         id: 4,
         unlockTime: new Date('2025-10-11T19:45:00-04:00'), // October 11th after Shabbat
-        gameUrl: 'ctf-game.html',
+        gameUrl: 'genie.html',
         passkey: 'CTF2025'
     }
 ];
