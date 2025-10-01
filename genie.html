@@ -372,6 +372,10 @@
                 <p style="text-align: center; font-weight: bold; color: #8b0000; font-size: 1.3rem;">The nightmare was about to begin...</p>
             </div>
 
+            <div style="margin: 15px 0 20px; display:flex; align-items:center; justify-content:center; gap:10px;">
+                <input type="checkbox" id="dontShowAgain" style="width:18px; height:18px;">
+                <label for="dontShowAgain" style="color:#444; font-size:0.95rem;">Don't show this again</label>
+            </div>
             <button class="continue-button" onclick="startGenieEncounter()">
                 <i class="fas fa-forward"></i> Continue into the Darkness...
             </button>
@@ -445,6 +449,7 @@
     <script>
         // Evil welcome message
         const welcomeMessage = `Foolish mortal... You have stumbled into my domain, and now you are TRAPPED!
+                    I am Rotanika... Akinator's EVIL cousin.
                     You don't even realize the dire situation you're in, do you?
                     There's only ONE person who might be able to help you escape... but I'll NEVER tell you who! Mwahahaha!`;
 
@@ -565,6 +570,7 @@
             // Start the evil genie sequence after a dramatic pause
             setTimeout(() => {
                 const welcomeMsg = `Foolish mortal... You have stumbled into my domain, and now you are TRAPPED!
+                    I am Rotanika... Akinator's EVIL cousin.
                     You don't even realize the dire situation you're in, do you?
                     There's only ONE person who might be able to help you escape... but I'll NEVER tell you who! Mwahahaha!`;
 
