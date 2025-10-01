@@ -587,6 +587,14 @@
             // Show genie page
             document.getElementById('geniePage').classList.remove('hidden');
 
+            // Persist don't-show-again choice
+            try {
+                const cb = document.getElementById('dontShowAgain');
+                if (cb && cb.checked) {
+                    localStorage.setItem('skipGenieIntro', 'true');
+                }
+            } catch (e) {}
+
             // Enable audio (user has now interacted)
             audioEnabled = true;
             console.log('🔓 Audio enabled by Continue button');
@@ -609,10 +617,24 @@
             }, 2000); // 2 second dramatic pause
         }
 
-        // Page loads showing backstory first
+        // Page loads: optionally skip backstory if user chose "Don't show again"
         window.addEventListener('load', function() {
-            // Backstory is shown by default, genie section is hidden
-            console.log('Page loaded - showing backstory first');
+            try {
+                const skip = localStorage.getItem('skipGenieIntro') === 'true';
+                if (skip) {
+                    document.getElementById('backstoryPage').classList.add('hidden');
+                    document.getElementById('geniePage').classList.remove('hidden');
+                    audioEnabled = true;
+                    setTimeout(() => {
+                        document.getElementById('speechText').textContent = '';
+                        document.getElementById('speechBubble').classList.add('show');
+                        playRotanikaAudio();
+                        typewriterEffect(welcomeMessage);
+                    }, 400);
+                }
+            } catch (e) {
+                console.log('skipGenieIntro check failed');
+            }
         });
 
         function handleKeyPress(event) {
