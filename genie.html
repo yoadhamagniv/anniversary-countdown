@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotanika - The Dark Genie</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .genie-page {
+            background: linear-gradient(135deg, #2c1810 0%, #8b0000 50%, #000000 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            font-family: 'Poppins', sans-serif;
+            animation: eerieGlow 3s ease-in-out infinite alternate;
+        }
+
+        .backstory-page {
+            background: linear-gradient(135deg, #87CEEB 0%, #98FB98 50%, #F0E68C 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        @keyframes eerieGlow {
+            0% { background: linear-gradient(135deg, #2c1810 0%, #8b0000 50%, #000000 100%); }
+            100% { background: linear-gradient(135deg, #1a0f0a 0%, #660000 50%, #1a1a1a 100%); }
+        }
+
+        .genie-container {
+            background: rgba(20, 20, 20, 0.95);
+            border: 2px solid #8b0000;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 900px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(139, 0, 0, 0.5), inset 0 0 30px rgba(255, 0, 0, 0.1);
+            position: relative;
+            animation: sinisterPulse 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes sinisterPulse {
+            0% { box-shadow: 0 20px 60px rgba(139, 0, 0, 0.5), inset 0 0 30px rgba(255, 0, 0, 0.1); }
+            100% { box-shadow: 0 25px 70px rgba(139, 0, 0, 0.7), inset 0 0 40px rgba(255, 0, 0, 0.2); }
+        }
+
+        .genie-title {
+            font-size: 2.5rem;
+            color: #ff4444;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-shadow: 0 0 10px #8b0000, 0 0 20px #ff0000;
+            animation: menacingGlow 1.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes menacingGlow {
+            0% { text-shadow: 0 0 10px #8b0000, 0 0 20px #ff0000; }
+            100% { text-shadow: 0 0 15px #ff0000, 0 0 30px #ff4444, 0 0 40px #8b0000; }
+        }
+
+        .genie-subtitle {
+            color: #cc6666;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            text-shadow: 0 0 5px #8b0000;
+        }
+
+        .rotanika-image {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 30px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 5px solid #8b0000;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px #ff0000, inset 0 0 20px rgba(139, 0, 0, 0.3);
+            animation: evilImagePulse 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes evilImagePulse {
+            0% { border-color: #8b0000; box-shadow: 0 0 20px #ff0000, inset 0 0 20px rgba(139, 0, 0, 0.3); }
+            100% { border-color: #ff0000; box-shadow: 0 0 30px #ff4444, inset 0 0 30px rgba(255, 0, 0, 0.5); }
+        }
+
+        .rotanika-exploding {
+            animation: explosion 5s ease-out forwards;
+            filter: saturate(300%) contrast(200%);
+        }
+
+        @keyframes explosion {
+            0% { transform: scale(1) rotate(0deg); opacity: 1; }
+            25% { transform: scale(1.2) rotate(5deg); filter: brightness(300%) hue-rotate(180deg); }
+            50% { transform: scale(0.8) rotate(-10deg); filter: brightness(500%) hue-rotate(360deg); }
+            75% { transform: scale(1.5) rotate(15deg); filter: brightness(200%) contrast(300%); }
+            100% { transform: scale(0) rotate(720deg); opacity: 0; filter: brightness(0%); }
+        }
+
+        .rotanika-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .speech-bubble {
+            background: #1a1a1a;
+            border: 2px solid #8b0000;
+            border-radius: 20px;
+            padding: 20px;
+            margin: 20px 0;
+            position: relative;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            box-shadow: inset 0 0 20px rgba(139, 0, 0, 0.3), 0 0 15px rgba(255, 0, 0, 0.2);
+        }
+
+        .speech-bubble.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .speech-bubble::before {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid #8b0000;
+        }
+
+        .speech-text {
+            font-size: 1.1rem;
+            color: #ff6666;
+            line-height: 1.5;
+            text-shadow: 0 0 5px #8b0000;
+        }
+
+        .chat-input-container {
+            margin: 30px 0;
+        }
+
+        .chat-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #8b0000;
+            border-radius: 25px;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+            background: #2a2a2a;
+            color: #ff6666;
+        }
+
+        .chat-input:focus {
+            border-color: #ff0000;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        }
+
+        .chat-input::placeholder {
+            color: #cc6666;
+        }
+
+        .hint-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #ffc107;
+            color: #333;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+        }
+
+        .hint-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(255, 193, 7, 0.4);
+        }
+
+        .hint-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .hint-modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 80%;
+            max-width: 600px;
+            position: relative;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .hint-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #aaa;
+        }
+
+        .hint-close:hover {
+            color: #333;
+        }
+
+        .hint-content {
+            margin-top: 20px;
+        }
+
+        .hint-content h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .hint-content p {
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .typing-indicator {
+            display: none;
+            color: #666;
+            font-style: italic;
+            margin: 10px 0;
+        }
+
+        .typing-dots::after {
+            content: '';
+            animation: dots 1.5s steps(5, end) infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: ''; }
+            40% { content: '.'; }
+            60% { content: '..'; }
+            80%, 100% { content: '...'; }
+        }
+
+        .home-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .home-button:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+
+        .backstory-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .backstory-title {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .backstory-text {
+            font-size: 1.2rem;
+            color: #444;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .continue-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: gentlePulse 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes gentlePulse {
+            0% { transform: scale(1); box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3); }
+            100% { transform: scale(1.05); box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5); }
+        }
+
+        .continue-button:hover {
+            transform: scale(1.1) translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.6);
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Backstory Section -->
+    <div class="backstory-page" id="backstoryPage">
+        <div class="backstory-container">
+            <a href="index.html" class="home-button">
+                <i class="fas fa-home"></i> Home
+            </a>
+
+            <h1 class="backstory-title">📖 A Normal Day...</h1>
+
+            <div class="backstory-text">
+                <p>It was just another ordinary afternoon. You were browsing through your anniversary countdown website, enjoying the sweet memories and anticipating what surprises lay ahead.</p>
+
+                <p>The mini-games had been fun so far, and you were excited to see what the fourth challenge would bring. You clicked on "Game 4" expecting another cute puzzle or riddle...</p>
+
+                <p>But suddenly, the screen began to darken. The air around you grew cold and thick with an ominous presence. A sinister laugh echoed from nowhere and everywhere at once.</p>
+
+                <p><strong>Something was very, very wrong...</strong></p>
+
+                <p>Out of the swirling darkness, a malevolent figure began to materialize before you. This was no ordinary game anymore. You had awakened something ancient and evil.</p>
+
+                <p style="text-align: center; font-weight: bold; color: #8b0000; font-size: 1.3rem;">The nightmare was about to begin...</p>
+            </div>
+
+            <button class="continue-button" onclick="startGenieEncounter()">
+                <i class="fas fa-forward"></i> Continue into the Darkness...
+            </button>
+        </div>
+    </div>
+
+    <!-- Evil Genie Section (Hidden initially) -->
+    <div class="genie-page hidden" id="geniePage">
+        <div class="genie-container">
+            <a href="index.html" class="home-button">
+                <i class="fas fa-home"></i> Home
+            </a>
+
+            <button class="hint-button" onclick="openHintModal()">
+                <i class="fas fa-lightbulb"></i>
+            </button>
+
+            <h1 class="genie-title">👹 Rotanika the Dark</h1>
+            <p class="genie-subtitle">The Evil Genie - Your worst nightmare has begun...</p>
+
+            <div class="rotanika-image">
+                <img id="rotanikaImg" src="images/rotanika-closed.jpg" alt="Rotanika" onload="console.log('Image loaded:', this.src)">
+            </div>
+
+            <div class="speech-bubble" id="speechBubble">
+                <div class="speech-text" id="speechText">
+                    <!-- Text will be populated by typewriter effect -->
+                </div>
+            </div>
+
+            <div class="typing-indicator" id="typingIndicator">
+                <span class="typing-dots">Rotanika is thinking</span>
+            </div>
+
+            <div class="chat-input-container">
+                <input type="text" id="chatInput" class="chat-input"
+                       placeholder="Try to find a way to defeat me... if you dare!"
+                       onkeypress="handleKeyPress(event)"
+                       onfocus="clearSpeechBubble()">
+            </div>
+        </div>
+    </div>
+
+    <!-- Hint Modal -->
+    <div id="hintModal" class="hint-modal">
+        <div class="hint-modal-content">
+            <span class="hint-close" onclick="closeHintModal()">&times;</span>
+            <div class="hint-content">
+                <h3>🔍 Web Navigation Hint</h3>
+                <p><strong>Did you know?</strong> Websites are made up of many pages, just like a book has many chapters!</p>
+                <p>Most websites work like this: if you're on <code>example.com/page1.html</code>, you can often navigate to other pages by changing the filename.</p>
+                <p><strong>For example:</strong></p>
+
+                <div style="margin: 20px 0; padding-left: 0;">
+                    <p><code>example.com/home.html</code></p>
+                    <p><code>example.com/about.html</code></p>
+                    <p><code>example.com/contact.html</code></p>
+                </div>
+
+                <p style="margin-top: 25px;">💡 <strong>Tip:</strong> If Rotanika mentions something interesting like a name or place, try adding <code>.html</code> to the end and putting it in the URL bar!</p>
+                <p>🕵️ Happy exploring!</p>
+            </div>
+        </div>
+    </div>
+
+    <audio id="rotanikaAudio" preload="auto" controls style="display: none;">
+        <source src="audio/rotanika-voice.mp3" type="audio/mpeg">
+        <source src="audio/rotanika-voice.ogg" type="audio/ogg">
+    </audio>
+
+    <script>
+        // Evil welcome message
+        const welcomeMessage = `Foolish mortal... You have stumbled into my domain, and now you are TRAPPED!
+                    You don't even realize the dire situation you're in, do you?
+                    There's only ONE person who might be able to help you escape... but I'll NEVER tell you who! Mwahahaha!`;
+
+        // Evil, menacing responses
+        const yesResponses = [
+            "Yes, pathetic mortal... and that knowledge will be your DOOM!",
+            "Indeed! The dark forces confirm this truth... not that it will help you!",
+            "Correct! The shadows whisper agreement... before they consume you!",
+            "Yes, yes! But knowing this brings you closer to your destruction!",
+            "The infernal realm vibrates with malicious confirmation!",
+            "Absolutely! My evil essence tingles with wicked delight!",
+            "By my horns! The demons cackle in agreement with your futile query!",
+            "Verily! The cursed flames dance in mockery of your helplessness!",
+            "Indeed, foolish one! The web of darkness weaves tighter around you!",
+            "Correct! The ancient curses glow with malevolent approval!",
+            "True! The spectral tormentors nod their ghastly heads!",
+            "Most assuredly! The compass of despair points toward your suffering!",
+            "Without doubt! The winds of malice carry screams of confirmation!",
+            "Yes, doomed soul! The lunar eclipse aligns with your misery!",
+            "Affirmative! The scales of evil tip heavily toward your doom!",
+            "Undeniably! The abyss resonates with harmonious wickedness!",
+            "Certainly! The nightmarish visions support your terrible fate!",
+            "Indeed! The elemental darkness unites in sinister consensus!",
+            "Yes! The cursed mirrors reflect the horror of your situation!",
+            "Positively! The serpentine malice coils in spirals of torment!"
+        ];
+
+        const noResponses = [
+            "No, wretched fool! Your ignorance amuses me greatly!",
+            "The forces of darkness say otherwise, pitiful questioner!",
+            "Absolutely not! My crystal ball rejects such laughable nonsense!",
+            "Wrong, mortal! The winds of evil blow against your pathetic guess!",
+            "The infernal realm rejects this notion with thunderous mockery!",
+            "Negative, doomed seeker! Your path leads only to suffering!",
+            "Never! The cursed flames retreat in disgust from such foolishness!",
+            "Nope! The demonic choir sings songs of your stupidity!",
+            "By the abyss, no! The shadows recoil from this misconception!",
+            "Incorrect! The pendulum of doom swings away from your guess!",
+            "False! The spectral tormentors laugh at your ignorance!",
+            "Never! The tides of evil wash away such erroneous thinking!",
+            "Not quite! The compass of despair spins in mocking rejection!",
+            "Wrong path! The bones of the damned scatter in disagreement!",
+            "Decidedly not! The evil spirits whisper harsh corrections!",
+            "Negative energy! The scales of suffering crash down on your notion!",
+            "Far from truth! The mists of terror swirl away in horror!",
+            "Backwards thinking! The lunar curse dims at such foolishness!",
+            "Mistaken! The serpentine darkness hisses warnings of your doom!",
+            "Denied! The realm of nightmares shudders at your wrongness!"
+        ];
+
+        const unknownResponses = [
+            "The mists of evil obscure this knowledge... how deliciously frustrating for you!",
+            "Hmm... even the demons murmur uncertainly about this matter!",
+            "The dark energies swirl in confusion - your suffering continues!",
+            "Alas! Even my malevolent divination cannot pierce this veil!",
+            "The ancient evils remain silent... prolonging your agony!",
+            "The infernal realm offers no clear answer... isn't that TORTUROUS?",
+            "Curious... the abyss grows cloudy when I peer at this query!",
+            "Strange... my crystal ball fogs with otherworldly malice!",
+            "Puzzling! The scales of evil balance perfectly... how maddening!",
+            "Mysterious! The cursed bones form patterns too wicked to decipher!",
+            "Enigmatic! The spectral voices speak in tongues of torment!",
+            "Perplexing! The map of doom shows only swirling darkness here!",
+            "Unclear! The winds of malice blow in circles of confusion!",
+            "Ambiguous! The cursed flames flicker between nightmare and horror!",
+            "Uncertain! The evil spirits debate your fate endlessly!",
+            "Vague! The scrolls of doom show only smudged blood at this passage!",
+            "Indefinite! The phases of terror shift too rapidly to reveal clarity!",
+            "Hazy! The cursed mirrors reflect only shadows of despair!",
+            "Clouded! The serpentine evil coils upon itself in wicked confusion!",
+            "Obscured! The realm of nightmares speaks in riddles of suffering!",
+            "Muddled! The currents of darkness flow in contradictory directions!",
+            "Veiled! Even the all-seeing evil eye blinks uncertainly at this mystery!"
+        ];
+
+        // The secret explosive word that defeats Rotanika
+        const explosiveWord = "FALAFEL";
+
+        // Hugging Face API settings (free tier)
+        const HF_API_URL = "https://api-inference.huggingface.co/models/microsoft/DialoGPT-medium";
+        const useAI = true; // Set to false to use only fallback responses
+
+        let currentResponseIndex = 0;
+        let isTyping = false;
+        let typingTimeout;
+        let audioPlaying = false;
+
+        let audioEnabled = false;
+        let pendingAudio = false;
+
+        // Enable audio on first user interaction
+        function enableAudio() {
+            if (!audioEnabled) {
+                audioEnabled = true;
+                console.log('🔓 Audio enabled by user interaction');
+
+                // If there was a pending audio request, play it now
+                if (pendingAudio) {
+                    console.log('🎵 Playing pending audio...');
+                    playRotanikaAudio();
+                    pendingAudio = false;
+                }
+            }
+        }
+
+        // Function to transition from backstory to genie encounter
+        function startGenieEncounter() {
+            // Hide backstory page
+            document.getElementById('backstoryPage').classList.add('hidden');
+
+            // Show genie page
+            document.getElementById('geniePage').classList.remove('hidden');
+
+            // Enable audio (user has now interacted)
+            audioEnabled = true;
+            console.log('🔓 Audio enabled by Continue button');
+
+            // Start the evil genie sequence after a dramatic pause
+            setTimeout(() => {
+                const welcomeMsg = `Foolish mortal... You have stumbled into my domain, and now you are TRAPPED!
+                    You don't even realize the dire situation you're in, do you?
+                    There's only ONE person who might be able to help you escape... but I'll NEVER tell you who! Mwahahaha!`;
+
+                document.getElementById('speechText').textContent = '';
+                document.getElementById('speechBubble').classList.add('show');
+
+                // Play audio immediately (now that user has interacted)
+                console.log('🎵 About to call playRotanikaAudio...');
+                playRotanikaAudio();
+                console.log('🎵 Called playRotanikaAudio');
+                typewriterEffect(welcomeMsg);
+            }, 2000); // 2 second dramatic pause
+        }
+
+        // Page loads showing backstory first
+        window.addEventListener('load', function() {
+            // Backstory is shown by default, genie section is hidden
+            console.log('Page loaded - showing backstory first');
+        });
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                processUserInput();
+            }
+        }
+
+        function clearSpeechBubble() {
+            if (isTyping) {
+                clearTimeout(typingTimeout);
+                isTyping = false;
+                stopAudio();
+            }
+
+            const bubble = document.getElementById('speechBubble');
+            bubble.classList.remove('show');
+            document.getElementById('typingIndicator').style.display = 'none';
+        }
+
+        async function processUserInput() {
+            const input = document.getElementById('chatInput');
+            const userMessage = input.value.trim();
+
+            if (userMessage === '') return;
+
+            // Check for the explosive word!
+            if (userMessage.toUpperCase().includes(explosiveWord)) {
+                explodeRotanika();
+                return;
+            }
+
+            input.value = '';
+            clearSpeechBubble();
+
+            // Show typing indicator
+            setTimeout(() => {
+                document.getElementById('typingIndicator').style.display = 'block';
+
+                if (useAI) {
+                    // Try AI response first
+                    getAIResponse(userMessage)
+                        .then(response => showAIResponse(response))
+                        .catch(() => {
+                            console.log('AI failed, using fallback');
+                            showFallbackResponse();
+                        });
+                } else {
+                    // Use fallback responses only
+                    setTimeout(() => showFallbackResponse(), 2000);
+                }
+            }, 500);
+        }
+
+        function explodeRotanika() {
+            const input = document.getElementById('chatInput');
+            const rotanikaImg = document.getElementById('rotanikaImg');
+            const speechBubble = document.getElementById('speechBubble');
+            const speechText = document.getElementById('speechText');
+
+            // Clear input
+            input.value = '';
+            input.disabled = true;
+
+            // Change to agony image and add explosion animation
+            rotanikaImg.src = 'images/rotanika-agony.jpg';
+            rotanikaImg.parentElement.classList.add('rotanika-exploding');
+
+            // Show final defeat message
+            speechText.textContent = "NOOOOOO! How did you discover my weakness?! The power of FALAFEL compels me! I am DEFEATED! *EXPLODES*";
+            speechBubble.classList.add('show');
+
+            // After explosion, show treasure with riddle
+            setTimeout(() => {
+                showTreasureRiddle();
+            }, 6000);
+        }
+
+        function showTreasureRiddle() {
+            const container = document.querySelector('.genie-container');
+
+            // Clear the container and show treasure
+            container.innerHTML = `
+                <h1 class="genie-title">💎 Ancient Treasure Revealed 💎</h1>
+                <div class="treasure-container">
+                    <div class="treasure-chest">
+                        <i class="fas fa-gem" style="font-size: 4rem; color: #ffd700; text-shadow: 0 0 20px #ffff00;"></i>
+                    </div>
+                    <div class="final-message">
+                        <p style="color: #ff6666; font-size: 1.2rem; margin-bottom: 20px;">
+                            Ha! You may have defeated me, but you'll NEVER guess the key to my treasure that holds your hint key!
+                        </p>
+                        <div class="riddle-section">
+                            <h3 style="color: #ffd700; margin-bottom: 15px;">🗝️ The Final Riddle:</h3>
+                            <p style="color: #ffcccc; font-size: 1.1rem; line-height: 1.6; font-style: italic;">
+                                "I am a friend whose name you know,<br>
+                                Four letters make my title show.<br>
+                                I rhyme with 'cool' and sound like 'tool',<br>
+                                In music class I'm nobody's fool!"
+                            </p>
+                        </div>
+                        <div class="treasure-input-section">
+                            <input type="text" id="treasureInput" class="chat-input"
+                                   placeholder="Enter the name to unlock the treasure..."
+                                   style="margin: 20px 0;">
+                            <button onclick="checkTreasureKey()" class="treasure-btn">
+                                <i class="fas fa-key"></i> Unlock Treasure
+                            </button>
+                        </div>
+                        <div id="treasureResult" style="margin-top: 20px;"></div>
+                    </div>
+                </div>
+            `;
+
+            // Add treasure button styling
+            const style = document.createElement('style');
+            style.textContent = `
+                .treasure-container {
+                    text-align: center;
+                    padding: 30px;
+                }
+                .treasure-chest {
+                    margin: 30px 0;
+                    animation: treasureGlow 2s ease-in-out infinite alternate;
+                }
+                @keyframes treasureGlow {
+                    0% { transform: scale(1); }
+                    100% { transform: scale(1.1); filter: brightness(1.3); }
+                }
+                .treasure-btn {
+                    background: linear-gradient(135deg, #ffd700, #ff8c00);
+                    color: #333;
+                    border: none;
+                    padding: 15px 30px;
+                    border-radius: 25px;
+                    font-size: 1.1rem;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                }
+                .treasure-btn:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 10px 25px rgba(255, 215, 0, 0.4);
+                }
+                .riddle-section {
+                    background: rgba(0, 0, 0, 0.3);
+                    border: 2px solid #ffd700;
+                    border-radius: 15px;
+                    padding: 20px;
+                    margin: 20px 0;
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        function checkTreasureKey() {
+            const input = document.getElementById('treasureInput');
+            const result = document.getElementById('treasureResult');
+            const answer = input.value.trim().toLowerCase();
+
+            if (answer === 'yoel') {
+                result.innerHTML = `
+                    <div style="background: #28a745; color: white; padding: 20px; border-radius: 15px; margin-top: 20px;">
+                        <h3>🎉 TREASURE UNLOCKED! 🎉</h3>
+                        <p>The treasure reveals your hint key:</p>
+                        <div style="background: white; color: #333; padding: 15px; border-radius: 10px; margin: 15px 0; font-size: 1.5rem; font-weight: bold; letter-spacing: 2px;">
+                            CTF2025
+                        </div>
+                        <p>Return to the main page and enter this code to unlock your hint!</p>
+                        <button onclick="window.location.href='index.html'" style="background: #667eea; color: white; border: none; padding: 10px 20px; border-radius: 20px; margin-top: 15px; cursor: pointer;">
+                            <i class="fas fa-home"></i> Back to Countdown
+                        </button>
+                    </div>
+                `;
+                input.disabled = true;
+                document.querySelector('.treasure-btn').disabled = true;
+            } else {
+                result.innerHTML = `
+                    <div style="background: #dc3545; color: white; padding: 15px; border-radius: 10px; margin-top: 20px;">
+                        ❌ Wrong answer! Think about the riddle more carefully...
+                    </div>
+                `;
+                input.value = '';
+                setTimeout(() => {
+                    result.innerHTML = '';
+                }, 3000);
+            }
+        }
+
+        async function getAIResponse(userMessage) {
+            // Analyze the question and determine if it matches Idan's characteristics
+            const answer = analyzeQuestion(userMessage);
+
+            // Get a mystical response based on the answer
+            if (answer === 'yes') {
+                return getRandomResponse(yesResponses);
+            } else if (answer === 'no') {
+                return getRandomResponse(noResponses);
+            } else {
+                return getRandomResponse(unknownResponses);
+            }
+        }
+
+        function analyzeQuestion(question) {
+            const q = question.toLowerCase();
+
+            // Questions that should be YES for Idan
+            if (q.includes('tall') || q.includes('6') || q.includes('six')) return 'yes';
+            if (q.includes('israeli') || q.includes('israel') || q.includes('middle east')) return 'yes';
+            if (q.includes('dark hair') || q.includes('black hair') || q.includes('brown hair')) return 'yes';
+            if (q.includes('beard') || q.includes('facial hair')) return 'yes';
+            if (q.includes('21') || q.includes('twenty') || q.includes('young')) return 'yes';
+            if (q.includes('skinny') || q.includes('thin') || q.includes('slim')) return 'yes';
+            if (q.includes('smart') || q.includes('intelligent') || q.includes('clever')) return 'yes';
+            if (q.includes('funny') || q.includes('humor') || q.includes('joke')) return 'yes';
+            if (q.includes('jewish') || q.includes('jew')) return 'yes';
+            if (q.includes('sister') || q.includes('siblings')) return 'yes';
+            if (q.includes('exchange') || q.includes('university') || q.includes('student')) return 'yes';
+            if (q.includes('friend') || q.includes('know')) return 'yes';
+            if (q.includes('male') || q.includes('man') || q.includes('guy') || q.includes('boy')) return 'yes';
+            if (q.includes('last year') || q.includes('recent')) return 'yes';
+
+            // Questions that should be NO
+            if (q.includes('famous') || q.includes('celebrity') || q.includes('well known')) return 'no';
+            if (q.includes('short') || q.includes('small')) return 'no';
+            if (q.includes('blonde') || q.includes('red hair') || q.includes('bald')) return 'no';
+            if (q.includes('old') || q.includes('30') || q.includes('40')) return 'no';
+            if (q.includes('fat') || q.includes('heavy') || q.includes('big')) return 'no';
+            if (q.includes('female') || q.includes('woman') || q.includes('girl')) return 'no';
+            if (q.includes('brother') || q.includes('only child')) return 'no';
+
+            // Default to "I don't know" for unclear questions
+            return 'unknown';
+        }
+
+        function getRandomResponse(responses) {
+            return responses[Math.floor(Math.random() * responses.length)];
+        }
+
+        function showAIResponse(response) {
+            document.getElementById('typingIndicator').style.display = 'none';
+
+            const speechText = document.getElementById('speechText');
+            const speechBubble = document.getElementById('speechBubble');
+
+            speechText.textContent = '';
+            speechBubble.classList.add('show');
+
+            playRotanikaAudio();
+            typewriterEffect(response);
+        }
+
+        function showFallbackResponse() {
+            document.getElementById('typingIndicator').style.display = 'none';
+
+            // Just pick a random mystical response
+            const allResponses = [...yesResponses, ...noResponses, ...unknownResponses];
+            const response = getRandomResponse(allResponses);
+
+            const speechText = document.getElementById('speechText');
+            const speechBubble = document.getElementById('speechBubble');
+
+            speechText.textContent = '';
+            speechBubble.classList.add('show');
+
+            playRotanikaAudio();
+            typewriterEffect(response);
+        }
+
+        function typewriterEffect(text) {
+            isTyping = true;
+            const speechText = document.getElementById('speechText');
+            let index = 0;
+
+            function typeChar() {
+                if (index < text.length && isTyping) {
+                    speechText.textContent += text.charAt(index);
+                    index++;
+                    typingTimeout = setTimeout(typeChar, 50); // 50ms per character
+                } else {
+                    isTyping = false;
+                    stopAudio();
+                }
+            }
+
+            typeChar();
+        }
+
+        function playRotanikaAudio() {
+            if (audioPlaying) return;
+
+            const audio = document.getElementById('rotanikaAudio');
+            const img = document.getElementById('rotanikaImg');
+
+            console.log('Attempting to play audio...');
+
+            // Change to talking image IMMEDIATELY (this should always work)
+            img.src = 'images/rotanika-open.jpg';
+            console.log('Changed image to:', img.src);
+
+            // Check if audio is enabled
+            if (!audioEnabled) {
+                console.log('⏸️ Audio not enabled yet, marking as pending');
+                pendingAudio = true;
+                return;
+            }
+
+            // Try to play audio
+            audio.currentTime = 0;
+            audio.volume = 1.0;
+
+            const playPromise = audio.play();
+
+            if (playPromise !== undefined) {
+                playPromise
+                    .then(() => {
+                        audioPlaying = true;
+                        console.log('✅ Audio playing successfully');
+                    })
+                    .catch(e => {
+                        console.log('❌ Audio play failed:', e);
+                        console.log('Audio readyState:', audio.readyState);
+                        console.log('Audio networkState:', audio.networkState);
+                        // Still set audioPlaying even if audio fails
+                        audioPlaying = true;
+                    });
+            } else {
+                console.log('⚠️ Play promise is undefined');
+                audioPlaying = true;
+            }
+        }
+
+        function stopAudio() {
+            const audio = document.getElementById('rotanikaAudio');
+            const img = document.getElementById('rotanikaImg');
+
+            audio.pause();
+            audio.currentTime = 0;
+            audioPlaying = false;
+
+            // Change back to closed mouth image
+            img.src = 'images/rotanika-closed.jpg';
+        }
+
+        function openHintModal() {
+            document.getElementById('hintModal').style.display = 'block';
+        }
+
+        function closeHintModal() {
+            document.getElementById('hintModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('hintModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Audio ended event
+        document.getElementById('rotanikaAudio').addEventListener('ended', function() {
+            stopAudio();
+        });
+    </script>
+</body>
+</html>
