@@ -64,7 +64,7 @@ function getRandomClue() {
 // Valid passkeys for unlocking hints
 const validPasskeys = {
     'MUSIC2025': 'This is a gift you might say no to (hopefully not).',
-    'MEMORY2025': 'You’ve never gotten one like this before.',
+    'MEMORY2025': 'It\'s something you never had before.',
     'HEBREW2025': 'It comes in a box but isn’t jewelry.',
     'CTF2025': 'You won’t use it every day, but you’ll want to keep it forever.'
 };
