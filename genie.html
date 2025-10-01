@@ -657,6 +657,9 @@
             rotanikaImg.src = 'images/rotanika-agony.jpg';
             rotanikaImg.parentElement.classList.add('rotanika-exploding');
 
+            // Play explosion sound (Web Audio API - no external file needed)
+            try { playExplosionSound(); } catch (e) { console.log('Explosion sound failed', e); }
+
             // Show final defeat message
             speechText.textContent = "NOOOOOO! How did you discover my weakness?! The power of FALAFEL compels me! I am DEFEATED! *EXPLODES*";
             speechBubble.classList.add('show');
@@ -665,6 +668,54 @@
             setTimeout(() => {
                 showPostExplosionSequence();
             }, 6000);
+        }
+
+        // Simple synthesized explosion using Web Audio API
+        function playExplosionSound() {
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            const ctx = new AudioCtx();
+
+            // Noise burst
+            const bufferSize = 2 * ctx.sampleRate;
+            const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+            const output = noiseBuffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) {
+                // Exponentially decaying noise
+                const decay = Math.pow(1 - i / bufferSize, 2.5);
+                output[i] = (Math.random() * 2 - 1) * decay;
+            }
+            const noise = ctx.createBufferSource();
+            noise.buffer = noiseBuffer;
+
+            const noiseFilter = ctx.createBiquadFilter();
+            noiseFilter.type = 'lowpass';
+            noiseFilter.frequency.setValueAtTime(800, ctx.currentTime);
+
+            const noiseGain = ctx.createGain();
+            noiseGain.gain.setValueAtTime(1.2, ctx.currentTime);
+            noiseGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.2);
+
+            noise.connect(noiseFilter);
+            noiseFilter.connect(noiseGain);
+            noiseGain.connect(ctx.destination);
+
+            // Low rumble
+            const osc = ctx.createOscillator();
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(60, ctx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(30, ctx.currentTime + 1.0);
+
+            const oscGain = ctx.createGain();
+            oscGain.gain.setValueAtTime(0.6, ctx.currentTime);
+            oscGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.0);
+
+            osc.connect(oscGain);
+            oscGain.connect(ctx.destination);
+
+            noise.start();
+            osc.start();
+            noise.stop(ctx.currentTime + 1.2);
+            osc.stop(ctx.currentTime + 1.1);
         }
 
         // New staged, interactive ending sequence
