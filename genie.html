@@ -963,11 +963,27 @@
             // Direct Idan detection (shouldn't reach here due to earlier check, but just in case)
             if (q.includes('idan')) return 'yes';
 
+            // Check if asking about being a specific person (other than Idan) - return NO
+            const otherNames = ['obama', 'trump', 'biden', 'musk', 'bezos', 'gates', 'zuckerberg', 'celebrity', 'actor', 'singer', 'rapper', 'athlete', 'politician', 'president', 'famous person'];
+            for (let name of otherNames) {
+                if (q.includes(name)) return 'no';
+            }
+
             // Check for female indicators first (to avoid false positives)
             if (q.match(/\bshe\b/) || q.match(/\bher\b/) || q.includes('female') || q.includes('woman') || q.includes('girl')) return 'no';
 
-            // Questions that should be YES for Idan
-            if (q.includes('tall') || q.includes('6') || q.includes('six') || q.includes('height')) return 'yes';
+            // Check for contradictory attributes first
+            if (q.includes('famous') || q.includes('well known') || q.includes('celebrity')) return 'no';
+            if (q.includes('short') || q.includes('small')) return 'no';
+            if (q.includes('blonde') || q.includes('red hair') || q.includes('bald')) return 'no';
+            if (q.includes('old') || q.includes('30') || q.includes('40') || q.includes('50') || q.includes('elderly') || q.includes('senior')) return 'no';
+            if (q.includes('fat') || q.includes('heavy') || q.includes('overweight')) return 'no';
+            if (q.includes('brother') || q.includes('only child')) return 'no';
+            if (q.includes('american') || q.includes('from america') || q.includes('from usa')) return 'no';
+
+            // Questions that should be YES for Idan - only match when asking about attributes, not identity
+            if (q.includes('tall') || q.includes('height')) return 'yes';
+            if (q.includes('6 feet') || q.includes('six feet')) return 'yes';
             if (q.includes('israeli') || q.includes('israel') || q.includes('middle east')) return 'yes';
             if (q.includes('dark hair') || q.includes('black hair') || q.includes('brown hair')) return 'yes';
             if (q.includes('beard') || q.includes('facial hair') || q.includes('mustache')) return 'yes';
@@ -988,16 +1004,6 @@
             // Add more specific helpful hints
             if (q.includes('starts with i') || q.includes('begin with i') || q.includes('i name')) return 'yes';
             if (q.includes('who is') || q.includes('who can') || q.includes('name')) return 'unknown';
-
-            // Questions that should be NO
-            if (q.includes('famous') || q.includes('celebrity') || q.includes('well known')) return 'no';
-            if (q.includes('short') || q.includes('small')) return 'no';
-            if (q.includes('blonde') || q.includes('red hair') || q.includes('bald')) return 'no';
-            if (q.includes('old') || q.includes('30') || q.includes('40') || q.includes('50')) return 'no';
-            if (q.includes('fat') || q.includes('heavy') || q.includes('overweight')) return 'no';
-            if (q.includes('brother') || q.includes('only child')) return 'no';
-            if (q.includes('american') || q.includes('from america') || q.includes('from usa')) return 'no';
-            if (q.includes('elderly') || q.includes('senior')) return 'no';
 
             // Default to "I don't know" for unclear questions
             return 'unknown';
