@@ -498,7 +498,8 @@
                     <p><code>example.com/contact.html</code></p>
                 </div>
 
-                <p style="margin-top: 25px;">💡 <strong>Tip:</strong> If Rotanika mentions something interesting like a name or place, try adding <code>.html</code> to the end and putting it in the URL bar!</p>
+                <p style="margin-top: 25px;">💡 <strong>Tip:</strong> Once you figure out WHO can help you escape, try typing their name in the URL bar with <code>.html</code> at the end!</p>
+                <p style="margin-top: 10px;">🎯 <strong>Hint:</strong> Think about people you know... maybe someone tall from Israel whose name starts with I?</p>
                 <p>🕵️ Happy exploring!</p>
             </div>
         </div>
@@ -517,7 +518,7 @@
         const welcomeMessage = `Foolish mortal... You have stumbled into my domain, and now you are TRAPPED!
                     I am Rotanika... Akinator's EVIL cousin.
                     You don't even realize the dire situation you're in, do you?
-                    There's only ONE person who might be able to help you escape... but I'll NEVER tell you who! Mwahahaha!`;
+                    There's only ONE person who might be able to help you escape... someone tall, someone from far away, someone you know well... but I'll NEVER tell you their name! Mwahahaha!`;
 
         // Evil, menacing responses
         const yesResponses = [
@@ -605,6 +606,7 @@
 
         let audioEnabled = false;
         let pendingAudio = false;
+        let questionCount = 0;
 
         // Enable audio on first user interaction
         function enableAudio() {
@@ -643,11 +645,6 @@
 
             // Start the evil genie sequence after a dramatic pause
             setTimeout(() => {
-                const welcomeMsg = `Foolish mortal... You have stumbled into my domain, and now you are TRAPPED!
-                    I am Rotanika... Akinator's EVIL cousin.
-                    You don't even realize the dire situation you're in, do you?
-                    There's only ONE person who might be able to help you escape... but I'll NEVER tell you who! Mwahahaha!`;
-
                 document.getElementById('speechText').textContent = '';
                 document.getElementById('speechBubble').classList.add('show');
 
@@ -655,7 +652,7 @@
                 console.log('🎵 About to call playRotanikaAudio...');
                 playRotanikaAudio();
                 console.log('🎵 Called playRotanikaAudio');
-                typewriterEffect(welcomeMsg);
+                typewriterEffect(welcomeMessage);
             }, 2000); // 2 second dramatic pause
         }
 
@@ -711,6 +708,30 @@
 
             input.value = '';
             clearSpeechBubble();
+            questionCount++;
+
+            // Progressive hints based on question count
+            let specialHint = null;
+            if (questionCount === 5) {
+                specialHint = "Grr... you're persistent! Fine, I'll give you a tiny hint... This person is from the Middle East! But that's all you're getting from me!";
+            } else if (questionCount === 10) {
+                specialHint = "ARGH! Why won't you give up?! Listen... I-I-I mean... the person's name starts with I... NO WAIT, FORGET I SAID THAT!";
+            } else if (questionCount === 15) {
+                specialHint = "You're driving me CRAZY! Okay FINE! You met this person last year... they were an exchange student... I've said too much! CURSE YOU!";
+            }
+
+            if (specialHint) {
+                setTimeout(() => {
+                    document.getElementById('typingIndicator').style.display = 'none';
+                    const speechText = document.getElementById('speechText');
+                    const speechBubble = document.getElementById('speechBubble');
+                    speechText.textContent = '';
+                    speechBubble.classList.add('show');
+                    playRotanikaAudio();
+                    typewriterEffect(specialHint);
+                }, 500);
+                return;
+            }
 
             // Show typing indicator
             setTimeout(() => {
