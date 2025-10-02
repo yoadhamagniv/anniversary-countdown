@@ -1031,6 +1031,11 @@
             if (q.includes('relative') || q.includes('related to you')) return 'no';
 
             // Relationship to you - broad matching
+            // Check romantic relationships first - NO
+            if (q.includes('boyfriend') || q.includes('girlfriend') || q.includes('dating') || q.includes('romantic')) return 'no';
+            if (q.includes('husband') || q.includes('wife') || q.includes('married')) return 'no';
+            if (q.includes('partner') || q.includes('significant other')) return 'no';
+            // Then check friendship - YES
             if (q.includes('friend')) return 'yes';
             if (q.includes('know')) return 'yes';
             if (q.includes('met')) return 'yes';
