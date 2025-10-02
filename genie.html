@@ -960,52 +960,75 @@
         function analyzeQuestion(question) {
             const q = question.toLowerCase();
 
-            // Direct Idan detection (shouldn't reach here due to earlier check, but just in case)
+            // Direct Idan detection
             if (q.includes('idan')) return 'yes';
 
-            // Check if asking about being a specific person (other than Idan) - return NO
-            const otherNames = ['obama', 'trump', 'biden', 'musk', 'bezos', 'gates', 'zuckerberg', 'celebrity', 'actor', 'singer', 'rapper', 'athlete', 'politician', 'president', 'famous person'];
+            // Check if asking about being a specific person - return NO
+            const otherNames = ['obama', 'trump', 'biden', 'musk', 'bezos', 'gates', 'zuckerberg', 'celebrity', 'actor', 'singer', 'rapper', 'athlete', 'politician', 'president', 'famous'];
             for (let name of otherNames) {
                 if (q.includes(name)) return 'no';
             }
 
-            // Check for female indicators first (to avoid false positives)
+            // Female indicators - NO
             if (q.match(/\bshe\b/) || q.match(/\bher\b/) || q.includes('female') || q.includes('woman') || q.includes('girl')) return 'no';
 
-            // Check for contradictory attributes first
-            if (q.includes('famous') || q.includes('well known') || q.includes('celebrity')) return 'no';
+            // Attributes that do NOT match Idan - NO
             if (q.includes('short') || q.includes('small')) return 'no';
-            if (q.includes('blonde') || q.includes('red hair') || q.includes('bald')) return 'no';
-            if (q.includes('old') || q.includes('30') || q.includes('40') || q.includes('50') || q.includes('elderly') || q.includes('senior')) return 'no';
-            if (q.includes('fat') || q.includes('heavy') || q.includes('overweight')) return 'no';
+            if (q.includes('blonde') || q.includes('red hair') || q.includes('ginger') || q.includes('bald')) return 'no';
+            if (q.includes('old') || q.match(/\b30\b/) || q.match(/\b40\b/) || q.match(/\b50\b/) || q.includes('elderly') || q.includes('senior')) return 'no';
+            if (q.includes('fat') || q.includes('heavy') || q.includes('overweight') || q.includes('chubby')) return 'no';
             if (q.includes('brother') || q.includes('only child')) return 'no';
-            if (q.includes('american') || q.includes('from america') || q.includes('from usa')) return 'no';
+            if (q.includes('american') || q.includes('from america') || q.includes('from usa') || q.includes('from us')) return 'no';
+            if (q.includes('british') || q.includes('from uk') || q.includes('from england')) return 'no';
+            if (q.includes('chinese') || q.includes('japanese') || q.includes('korean')) return 'no';
+            if (q.includes('african') || q.includes('from africa')) return 'no';
+            if (q.includes('european') && !q.includes('middle')) return 'no';
 
-            // Questions that should be YES for Idan - only match when asking about attributes, not identity
-            if (q.includes('tall') || q.includes('height')) return 'yes';
-            if (q.includes('6 feet') || q.includes('six feet')) return 'yes';
-            if (q.includes('israeli') || q.includes('israel') || q.includes('middle east')) return 'yes';
+            // SPECIFIC questions about Idan's characteristics - YES
+            // Physical appearance
+            if (q.includes('tall')) return 'yes';
             if (q.includes('dark hair') || q.includes('black hair') || q.includes('brown hair')) return 'yes';
-            if (q.includes('beard') || q.includes('facial hair') || q.includes('mustache')) return 'yes';
-            if (q.includes('21') || q.includes('twenty') || q.includes('young') || q.includes('20')) return 'yes';
-            if (q.includes('skinny') || q.includes('thin') || q.includes('slim') || q.includes('fit')) return 'yes';
-            if (q.includes('smart') || q.includes('intelligent') || q.includes('clever') || q.includes('genius')) return 'yes';
-            if (q.includes('funny') || q.includes('humor') || q.includes('joke') || q.includes('laugh')) return 'yes';
-            if (q.includes('jewish') || q.includes('jew') || q.includes('kosher') || q.includes('shabbat')) return 'yes';
-            if (q.includes('sister') || q.includes('siblings') || q.includes('family')) return 'yes';
-            if (q.includes('exchange') || q.includes('university') || q.includes('student') || q.includes('college')) return 'yes';
-            if (q.includes('friend') || q.includes('know') || q.includes('met')) return 'yes';
-            // Use word boundaries for gender - only match whole words
-            if (q.match(/\bmale\b/) || q.match(/\bman\b/) || q.match(/\bguy\b/) || q.match(/\bboy\b/) || q.match(/\bhe\b/) || q.match(/\bhim\b/)) return 'yes';
-            if (q.includes('last year') || q.includes('recent') || q.includes('2024') || q.includes('2023')) return 'yes';
-            if (q.includes('abroad') || q.includes('foreign') || q.includes('international')) return 'yes';
-            if (q.includes('accent') || q.includes('speak hebrew') || q.includes('hebrew')) return 'yes';
+            if (q.includes('beard') || q.includes('facial hair')) return 'yes';
+            if (q.includes('skinny') || q.includes('thin') || q.includes('slim')) return 'yes';
 
-            // Add more specific helpful hints
-            if (q.includes('starts with i') || q.includes('begin with i') || q.includes('i name')) return 'yes';
-            if (q.includes('who is') || q.includes('who can') || q.includes('name')) return 'unknown';
+            // Origin/nationality
+            if (q.includes('israeli') || q.includes('from israel')) return 'yes';
+            if (q.includes('middle east') || q.includes('middle eastern')) return 'yes';
+            if (q.includes('jewish') || q.includes('jew')) return 'yes';
+            if (q.includes('hebrew') || q.includes('speaks hebrew')) return 'yes';
 
-            // Default to "I don't know" for unclear questions
+            // Age
+            if (q.includes('21') || q.match(/\b20\b/) || q.includes('twenty')) return 'yes';
+            if (q.includes('young')) return 'yes';
+
+            // Student/education
+            if (q.includes('exchange student')) return 'yes';
+            if (q.includes('university') || q.includes('college')) return 'yes';
+            if (q.includes('student')) return 'yes';
+            if (q.includes('studying')) return 'yes';
+
+            // Family
+            if (q.includes('has a sister') || q.includes('have a sister')) return 'yes';
+            if (q.includes('sister') || q.includes('sibling')) return 'yes';
+
+            // Relationship to you
+            if (q.includes('friend of yours') || q.includes('your friend')) return 'yes';
+            if (q.includes('you know') || q.includes('know them') || q.includes('met them')) return 'yes';
+            if (q.includes('met last year') || q.includes('met in 2024') || q.includes('met in 2023')) return 'yes';
+
+            // Personality
+            if (q.includes('smart') || q.includes('intelligent')) return 'yes';
+            if (q.includes('funny') || q.includes('sense of humor')) return 'yes';
+
+            // Name hints
+            if (q.includes('name starts with i') || q.includes('name begins with i')) return 'yes';
+            if (q.includes('4 letter') || q.includes('four letter')) return 'yes';
+
+            // Generic gender questions without specific context - respond UNKNOWN instead of yes
+            if (q.match(/\bmale\b/) || q.match(/\bman\b/) || q.match(/\bguy\b/) || q.match(/\bboy\b/)) return 'unknown';
+            if (q.match(/\bhe\b/) || q.match(/\bhim\b/)) return 'unknown';
+
+            // Default to unknown
             return 'unknown';
         }
 
