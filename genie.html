@@ -963,9 +963,12 @@
             // Direct Idan detection (shouldn't reach here due to earlier check, but just in case)
             if (q.includes('idan')) return 'yes';
 
+            // Check for female indicators first (to avoid false positives)
+            if (q.match(/\bshe\b/) || q.match(/\bher\b/) || q.includes('female') || q.includes('woman') || q.includes('girl')) return 'no';
+
             // Questions that should be YES for Idan
             if (q.includes('tall') || q.includes('6') || q.includes('six') || q.includes('height')) return 'yes';
-            if (q.includes('israeli') || q.includes('israel') || q.includes('middle east') || q.includes('asia')) return 'yes';
+            if (q.includes('israeli') || q.includes('israel') || q.includes('middle east')) return 'yes';
             if (q.includes('dark hair') || q.includes('black hair') || q.includes('brown hair')) return 'yes';
             if (q.includes('beard') || q.includes('facial hair') || q.includes('mustache')) return 'yes';
             if (q.includes('21') || q.includes('twenty') || q.includes('young') || q.includes('20')) return 'yes';
@@ -976,7 +979,8 @@
             if (q.includes('sister') || q.includes('siblings') || q.includes('family')) return 'yes';
             if (q.includes('exchange') || q.includes('university') || q.includes('student') || q.includes('college')) return 'yes';
             if (q.includes('friend') || q.includes('know') || q.includes('met')) return 'yes';
-            if (q.includes('male') || q.includes('man') || q.includes('guy') || q.includes('boy') || q.includes('he') || q.includes('him')) return 'yes';
+            // Use word boundaries for gender - only match whole words
+            if (q.match(/\bmale\b/) || q.match(/\bman\b/) || q.match(/\bguy\b/) || q.match(/\bboy\b/) || q.match(/\bhe\b/) || q.match(/\bhim\b/)) return 'yes';
             if (q.includes('last year') || q.includes('recent') || q.includes('2024') || q.includes('2023')) return 'yes';
             if (q.includes('abroad') || q.includes('foreign') || q.includes('international')) return 'yes';
             if (q.includes('accent') || q.includes('speak hebrew') || q.includes('hebrew')) return 'yes';
@@ -991,10 +995,9 @@
             if (q.includes('blonde') || q.includes('red hair') || q.includes('bald')) return 'no';
             if (q.includes('old') || q.includes('30') || q.includes('40') || q.includes('50')) return 'no';
             if (q.includes('fat') || q.includes('heavy') || q.includes('overweight')) return 'no';
-            if (q.includes('female') || q.includes('woman') || q.includes('girl') || q.includes('she') || q.includes('her')) return 'no';
             if (q.includes('brother') || q.includes('only child')) return 'no';
             if (q.includes('american') || q.includes('from america') || q.includes('from usa')) return 'no';
-            if (q.includes('old') || q.includes('elderly') || q.includes('senior')) return 'no';
+            if (q.includes('elderly') || q.includes('senior')) return 'no';
 
             // Default to "I don't know" for unclear questions
             return 'unknown';
