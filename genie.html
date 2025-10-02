@@ -1022,10 +1022,13 @@
             if (q.includes('student') || q.includes('study')) return 'yes';
             if (q.includes('educated') || q.includes('education')) return 'yes';
 
-            // Family - broad matching
+            // Family - specific matching
             if (q.includes('sister') || q.includes('sibling')) return 'yes';
-            if (q.includes('family')) return 'yes';
+            if (q.includes('has family') || q.includes('have family') || q.includes('has a family')) return 'yes';
+            // But NOT a family member
+            if (q.includes('family member') || q.includes('your family') || q.includes('is he family')) return 'no';
             if (q.includes('brother')) return 'no';
+            if (q.includes('relative') || q.includes('related to you')) return 'no';
 
             // Relationship to you - broad matching
             if (q.includes('friend')) return 'yes';
