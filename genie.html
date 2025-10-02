@@ -367,6 +367,38 @@
         .hidden {
             display: none;
         }
+
+        /* Mobile responsive fixes */
+        @media (max-width: 768px) {
+            .home-button, .hint-button {
+                top: 10px;
+                font-size: 0.8rem;
+                padding: 8px 12px;
+                width: 40px;
+                height: 40px;
+            }
+
+            .home-button {
+                left: 10px;
+                padding: 8px;
+            }
+
+            .hint-button {
+                right: 10px;
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+
+            .genie-title {
+                font-size: 1.8rem;
+                margin-top: 30px;
+            }
+
+            .genie-container {
+                padding: 60px 20px 30px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -391,6 +423,12 @@
                 <p>Out of the swirling darkness, a malevolent figure began to materialize before you. This was no ordinary game anymore. You had awakened something ancient and evil.</p>
 
                 <p style="text-align: center; font-weight: bold; color: #8b0000; font-size: 1.3rem;">The nightmare was about to begin...</p>
+            </div>
+
+            <div style="background: #fff3cd; border: 2px solid #ffc107; border-radius: 10px; padding: 15px; margin: 20px 0; text-align: center;">
+                <p style="color: #856404; margin: 0; font-size: 0.95rem;">
+                    💻 <strong>Tip:</strong> For the best experience, we recommend playing this game on a computer!
+                </p>
             </div>
 
             <div style="margin: 15px 0 20px; display:flex; align-items:center; justify-content:center; gap:10px;">
@@ -434,8 +472,7 @@
             <div class="chat-input-container">
                 <input type="text" id="chatInput" class="chat-input"
                        placeholder="Try to find a way to defeat me... if you dare!"
-                       onkeypress="handleKeyPress(event)"
-                       onfocus="clearSpeechBubble()">
+                       onkeypress="handleKeyPress(event)">
             </div>
         </div>
     </div>
@@ -446,6 +483,13 @@
             <span class="hint-close" onclick="closeHintModal()">&times;</span>
             <div class="hint-content">
                 <h3>🔍 Web Navigation Hint</h3>
+
+                <div style="background: #fff3cd; border: 2px solid #ffc107; border-radius: 10px; padding: 12px; margin-bottom: 15px;">
+                    <p style="color: #856404; margin: 0; font-size: 0.9rem;">
+                        💻 <strong>Note:</strong> Using a computer is recommended for this game!
+                    </p>
+                </div>
+
                 <p><strong>Did you know?</strong> Websites are made up of many pages, just like a book has many chapters!</p>
                 <p>Most websites work like this: if you're on <code>example.com/page1.html</code>, you can often navigate to other pages by changing the filename.</p>
                 <p><strong>For example:</strong></p>
