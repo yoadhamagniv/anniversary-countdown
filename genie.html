@@ -499,7 +499,7 @@
                 </div>
 
                 <p style="margin-top: 25px;">💡 <strong>Tip:</strong> Once you figure out WHO can help you escape, try typing their name in the URL bar with <code>.html</code> at the end!</p>
-                <p style="margin-top: 10px;">🎯 <strong>Hint:</strong> Think about people you know... maybe someone tall from Israel whose name starts with I?</p>
+                <p style="margin-top: 10px;">🎯 <strong>Hint:</strong> Think about people you know... maybe someone from Israel whose name starts with I?</p>
                 <p>🕵️ Happy exploring!</p>
             </div>
         </div>
@@ -518,7 +518,7 @@
         const welcomeMessage = `Foolish mortal... You have stumbled into my domain, and now you are TRAPPED!
                     I am Rotanika... Akinator's EVIL cousin.
                     You don't even realize the dire situation you're in, do you?
-                    There's only ONE person who might be able to help you escape... someone tall, someone from far away, someone you know well... but I'll NEVER tell you their name! Mwahahaha!`;
+                    There's only ONE person who might be able to help you escape... someone from far away, someone you know well... but I'll NEVER tell you their name! Mwahahaha!`;
 
         // Evil, menacing responses
         const yesResponses = [
@@ -703,6 +703,24 @@
             // Check for the explosive word!
             if (userMessage.toUpperCase().includes(explosiveWord)) {
                 explodeRotanika();
+                return;
+            }
+
+            const lowerMessage = userMessage.toLowerCase();
+
+            // Check if they mention Idan!
+            if (lowerMessage.includes('idan')) {
+                input.value = '';
+                clearSpeechBubble();
+                setTimeout(() => {
+                    document.getElementById('typingIndicator').style.display = 'none';
+                    const speechText = document.getElementById('speechText');
+                    const speechBubble = document.getElementById('speechBubble');
+                    speechText.textContent = '';
+                    speechBubble.classList.add('show');
+                    playRotanikaAudio();
+                    typewriterEffect("NOOO! How did you figure it out?! Yes... IDAN is the one who can help you escape! But you still need to find him! Try looking for a page with his name... if you dare! Mwahahaha!");
+                }, 500);
                 return;
             }
 
@@ -942,30 +960,41 @@
         function analyzeQuestion(question) {
             const q = question.toLowerCase();
 
+            // Direct Idan detection (shouldn't reach here due to earlier check, but just in case)
+            if (q.includes('idan')) return 'yes';
+
             // Questions that should be YES for Idan
-            if (q.includes('tall') || q.includes('6') || q.includes('six')) return 'yes';
-            if (q.includes('israeli') || q.includes('israel') || q.includes('middle east')) return 'yes';
+            if (q.includes('tall') || q.includes('6') || q.includes('six') || q.includes('height')) return 'yes';
+            if (q.includes('israeli') || q.includes('israel') || q.includes('middle east') || q.includes('asia')) return 'yes';
             if (q.includes('dark hair') || q.includes('black hair') || q.includes('brown hair')) return 'yes';
-            if (q.includes('beard') || q.includes('facial hair')) return 'yes';
-            if (q.includes('21') || q.includes('twenty') || q.includes('young')) return 'yes';
-            if (q.includes('skinny') || q.includes('thin') || q.includes('slim')) return 'yes';
-            if (q.includes('smart') || q.includes('intelligent') || q.includes('clever')) return 'yes';
-            if (q.includes('funny') || q.includes('humor') || q.includes('joke')) return 'yes';
-            if (q.includes('jewish') || q.includes('jew')) return 'yes';
-            if (q.includes('sister') || q.includes('siblings')) return 'yes';
-            if (q.includes('exchange') || q.includes('university') || q.includes('student')) return 'yes';
-            if (q.includes('friend') || q.includes('know')) return 'yes';
-            if (q.includes('male') || q.includes('man') || q.includes('guy') || q.includes('boy')) return 'yes';
-            if (q.includes('last year') || q.includes('recent')) return 'yes';
+            if (q.includes('beard') || q.includes('facial hair') || q.includes('mustache')) return 'yes';
+            if (q.includes('21') || q.includes('twenty') || q.includes('young') || q.includes('20')) return 'yes';
+            if (q.includes('skinny') || q.includes('thin') || q.includes('slim') || q.includes('fit')) return 'yes';
+            if (q.includes('smart') || q.includes('intelligent') || q.includes('clever') || q.includes('genius')) return 'yes';
+            if (q.includes('funny') || q.includes('humor') || q.includes('joke') || q.includes('laugh')) return 'yes';
+            if (q.includes('jewish') || q.includes('jew') || q.includes('kosher') || q.includes('shabbat')) return 'yes';
+            if (q.includes('sister') || q.includes('siblings') || q.includes('family')) return 'yes';
+            if (q.includes('exchange') || q.includes('university') || q.includes('student') || q.includes('college')) return 'yes';
+            if (q.includes('friend') || q.includes('know') || q.includes('met')) return 'yes';
+            if (q.includes('male') || q.includes('man') || q.includes('guy') || q.includes('boy') || q.includes('he') || q.includes('him')) return 'yes';
+            if (q.includes('last year') || q.includes('recent') || q.includes('2024') || q.includes('2023')) return 'yes';
+            if (q.includes('abroad') || q.includes('foreign') || q.includes('international')) return 'yes';
+            if (q.includes('accent') || q.includes('speak hebrew') || q.includes('hebrew')) return 'yes';
+
+            // Add more specific helpful hints
+            if (q.includes('starts with i') || q.includes('begin with i') || q.includes('i name')) return 'yes';
+            if (q.includes('who is') || q.includes('who can') || q.includes('name')) return 'unknown';
 
             // Questions that should be NO
             if (q.includes('famous') || q.includes('celebrity') || q.includes('well known')) return 'no';
             if (q.includes('short') || q.includes('small')) return 'no';
             if (q.includes('blonde') || q.includes('red hair') || q.includes('bald')) return 'no';
-            if (q.includes('old') || q.includes('30') || q.includes('40')) return 'no';
-            if (q.includes('fat') || q.includes('heavy') || q.includes('big')) return 'no';
-            if (q.includes('female') || q.includes('woman') || q.includes('girl')) return 'no';
+            if (q.includes('old') || q.includes('30') || q.includes('40') || q.includes('50')) return 'no';
+            if (q.includes('fat') || q.includes('heavy') || q.includes('overweight')) return 'no';
+            if (q.includes('female') || q.includes('woman') || q.includes('girl') || q.includes('she') || q.includes('her')) return 'no';
             if (q.includes('brother') || q.includes('only child')) return 'no';
+            if (q.includes('american') || q.includes('from america') || q.includes('from usa')) return 'no';
+            if (q.includes('old') || q.includes('elderly') || q.includes('senior')) return 'no';
 
             // Default to "I don't know" for unclear questions
             return 'unknown';
