@@ -236,6 +236,8 @@
             border-radius: 15px;
             width: 80%;
             max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
             position: relative;
             animation: modalSlideIn 0.3s ease;
         }
@@ -515,10 +517,9 @@
 
     <script>
         // Evil welcome message
-        const welcomeMessage = `Foolish mortal... You have stumbled into my domain, and now you are TRAPPED!
-                    I am Rotanika... Akinator's EVIL cousin.
-                    You don't even realize the dire situation you're in, do you?
-                    There's only ONE person who might be able to help you escape... someone from far away, someone you know well... but I'll NEVER tell you their name! Mwahahaha!`;
+        const welcomeMessage = `Foolish mortal... You are TRAPPED in my domain!
+                    I am Rotanika, Akinator's EVIL cousin. While he REVEALS, I HIDE!
+                    Only ONE person can help you escape... but I'll NEVER tell you their name! Mwahahaha!`;
 
         // Evil, menacing responses
         const yesResponses = [
@@ -804,14 +805,8 @@
                 }
             }, 300);
 
-            // Play provided explosion sound file for the duration
-            try {
-                const sfx = new Audio('audio/Explosion Sound Effect [FREE DOWNLOAD].mp3');
-                sfx.currentTime = 0;
-                sfx.volume = 1.0;
-                sfx.play().catch(()=>{});
-                setTimeout(()=>{ try { sfx.pause(); sfx.currentTime = 0; } catch(e){} }, 5000);
-            } catch (e) { console.log('Explosion sfx error', e); }
+            // Stop any playing audio (Rotanika's voice)
+            stopAudio();
 
             // Show final defeat message
             speechText.textContent = "NOOOOOO! How did you discover my weakness?! The power of FALAFEL compels me! I am DEFEATED! *EXPLODES*";
