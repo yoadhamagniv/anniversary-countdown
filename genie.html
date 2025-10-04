@@ -516,7 +516,7 @@
     <script>
         // Evil welcome message
         const welcomeMessage = `Foolish mortal... You are TRAPPED in my domain!
-                    I am Rotanika, Akinator's EVIL cousin. While he ASKS questions, I ANSWER them... but my answers only deepen your despair!
+                    I am Rotanika, Akinator's EVIL cousin. While he ASKS yes or no questions, I ANSWER them... but my answers only deepen your despair!
                     Only ONE person can help you escape... but I'll NEVER tell you their name! Mwahahaha!`;
 
         // Evil, menacing responses
@@ -972,6 +972,10 @@
 
             // Female indicators - NO
             if (q.match(/\bshe\b/) || q.match(/\bher\b/) || q.includes('female') || q.includes('woman') || q.includes('girl')) return 'no';
+
+            // Alive/dead questions - YES (Idan is alive)
+            if (q.includes('alive') || q.includes('living')) return 'yes';
+            if (q.includes('dead') || q.includes('deceased')) return 'no';
 
             // Attributes that do NOT match Idan - NO
             if (q.includes('short') || q.includes('small')) return 'no';
