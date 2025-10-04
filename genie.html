@@ -592,8 +592,8 @@
             "Veiled! Even the all-seeing evil eye blinks uncertainly at this mystery!"
         ];
 
-        // The secret explosive word that defeats Rotanika
-        const explosiveWord = "FALAFEL";
+        // The secret explosive words that defeat Rotanika
+        const explosiveWords = ["FALAFEL", "פלאפל", "פלפל"];
 
         // Hugging Face API settings (free tier)
         const HF_API_URL = "https://api-inference.huggingface.co/models/microsoft/DialoGPT-medium";
@@ -700,8 +700,8 @@
 
             if (userMessage === '') return;
 
-            // Check for the explosive word!
-            if (userMessage.toUpperCase().includes(explosiveWord)) {
+            // Check for the explosive words!
+            if (explosiveWords.some(word => userMessage.toUpperCase().includes(word.toUpperCase()))) {
                 explodeRotanika();
                 return;
             }
