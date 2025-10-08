@@ -15,7 +15,9 @@
       "Bash(then echo \"$file needs updates\")",
       "Bash(else echo \"$file does not exist\")",
       "Bash(node:*)",
-      "Bash(do echo \"Creating $file.html...\")"
+      "Bash(do echo \"Creating $file.html...\")",
+      "Bash(gh repo view:*)",
+      "Bash(git push:*)"
     ],
     "deny": [],
     "ask": []
